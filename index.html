@@ -3,513 +3,373 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>טיפת חלב פרטית — טיפה בדרך</title>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>טיפה בדרך — כרטיס ביקור</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --pink:     #f9c8d9;
-    --mint:     #b8ecd7;
-    --lavender: #d4c5f0;
-    --peach:    #ffd8b5;
-    --sky:      #bce8f7;
-    --yellow:   #fff3b0;
-    --teal:     #62b5be;
-    --navy:     #2d4a6b;
-    --text:     #3a3a3a;
-    --line:     #d0c8e8;
+    --brown:      #6b3f1a;
+    --brown-mid:  #a07050;
+    --brown-soft: #c8a882;
+    --blue-sec:   #d6ecf6;
+    --blue-bdr:   #9bc5d8;
+    --field-bg:   #ffffff;
+    --field-bdr:  #c8b89a;
+    --text:       #4a3020;
+    --text-light: #8a6848;
+    --line-color: #d8cfc0;
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(-3deg); }
-    50%       { transform: translateY(-12px) rotate(3deg); }
-  }
-  @keyframes floatAlt {
-    0%, 100% { transform: translateY(0px) rotate(4deg); }
-    50%       { transform: translateY(-10px) rotate(-4deg); }
-  }
+  @keyframes float    { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-10px) rotate(3deg)} }
+  @keyframes floatAlt { 0%,100%{transform:translateY(0) rotate(4deg)}  50%{transform:translateY(-12px) rotate(-4deg)} }
 
   body {
     font-family: 'Heebo', sans-serif;
     color: var(--text);
     min-height: 100vh;
-    background: linear-gradient(135deg, #fce8f3 0%, #e8f4fb 30%, #e8f8ee 60%, #fef5e8 100%);
-    position: relative;
+    background: linear-gradient(150deg, #fce8e4 0%, #e8f4fb 35%, #edf9e8 65%, #fef5e4 100%);
     overflow-x: hidden;
+    position: relative;
   }
 
-  /* ─── Background Bears ─── */
-  .bg-decor {
-    position: fixed;
-    pointer-events: none;
-    z-index: 0;
-    font-size: 70px;
-    opacity: 0.18;
-    user-select: none;
+  /* ── Floating background emojis ── */
+  .bg-deco {
+    position: fixed; pointer-events: none; user-select: none;
+    z-index: 0; opacity: 0.14; font-size: 60px;
   }
-  .bg-decor:nth-child(1)  { top: 4%;  left: 3%;  font-size: 80px; animation: float 6s ease-in-out infinite; }
-  .bg-decor:nth-child(2)  { top: 15%; right: 2%; font-size: 65px; animation: floatAlt 7s ease-in-out infinite; }
-  .bg-decor:nth-child(3)  { top: 38%; left: 1%;  font-size: 55px; animation: float 8s ease-in-out infinite 1s; }
-  .bg-decor:nth-child(4)  { top: 55%; right: 1%; font-size: 75px; animation: floatAlt 6.5s ease-in-out infinite 0.5s; }
-  .bg-decor:nth-child(5)  { top: 72%; left: 4%;  font-size: 60px; animation: float 7.5s ease-in-out infinite 2s; }
-  .bg-decor:nth-child(6)  { top: 85%; right: 3%; font-size: 70px; animation: floatAlt 9s ease-in-out infinite 1.5s; }
-  .bg-decor:nth-child(7)  { top: 92%; left: 45%; font-size: 50px; animation: float 7s ease-in-out infinite 3s; }
-  .bg-decor:nth-child(8)  { top: 26%; left: 48%; font-size: 45px; animation: floatAlt 8.5s ease-in-out infinite 0.8s; opacity: 0.1; }
+  .bg-deco:nth-child(1) { top:3%;   left:2%;   font-size:76px; animation:float    6s ease-in-out infinite; }
+  .bg-deco:nth-child(2) { top:14%;  right:2%;  font-size:58px; animation:floatAlt 7s ease-in-out infinite 1s; }
+  .bg-deco:nth-child(3) { top:40%;  left:1%;   font-size:52px; animation:float    8s ease-in-out infinite 2s; }
+  .bg-deco:nth-child(4) { top:58%;  right:1%;  font-size:68px; animation:floatAlt 6.5s ease-in-out infinite 0.5s; }
+  .bg-deco:nth-child(5) { top:75%;  left:3%;   font-size:56px; animation:float    7.5s ease-in-out infinite 1.5s; }
+  .bg-deco:nth-child(6) { bottom:4%;right:3%;  font-size:64px; animation:floatAlt 9s ease-in-out infinite 2s; }
+  .bg-deco:nth-child(7) { bottom:8%;left:44%;  font-size:42px; animation:float    7s ease-in-out infinite 3s; }
+  .bg-deco:nth-child(8) { top:28%;  left:47%;  font-size:36px; animation:floatAlt 8s ease-in-out infinite 0.8s; opacity:.08; }
 
-  /* ─── Page ─── */
+  /* ── Page card ── */
   .page {
-    position: relative;
-    z-index: 1;
-    max-width: 780px;
-    margin: 32px auto 48px;
-    background: rgba(255,255,255,0.88);
-    border-radius: 28px;
-    box-shadow: 0 8px 48px rgba(100,80,160,0.13);
+    position: relative; z-index: 1;
+    max-width: 660px;
+    margin: 28px auto 52px;
+    background: rgba(255,253,248,0.93);
+    border-radius: 26px;
+    box-shadow: 0 8px 48px rgba(100,60,20,0.14);
     overflow: hidden;
-    backdrop-filter: blur(4px);
   }
 
-  /* ─── Header ─── */
+  /* ── Header ── */
   .header {
-    background: linear-gradient(120deg, var(--lavender), var(--pink), var(--mint));
-    padding: 32px 36px 28px;
+    background: linear-gradient(130deg, #fff5ec, #e8f5ff, #f0ffed);
+    padding: 26px 32px 20px;
     text-align: center;
+    border-bottom: 1.5px dashed var(--field-bdr);
     position: relative;
   }
-  .header::before {
-    content: "🐻";
-    position: absolute;
-    font-size: 48px;
-    top: 18px;
-    right: 28px;
-    opacity: 0.6;
-  }
-  .header::after {
-    content: "🧸";
-    position: absolute;
-    font-size: 48px;
-    top: 18px;
-    left: 28px;
-    opacity: 0.6;
-  }
-  .clinic-name {
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--navy);
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-    opacity: 0.8;
-  }
-  .form-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 4px;
-  }
-  .form-subtitle {
-    font-size: 13px;
-    color: #5a6a7e;
-    font-weight: 300;
-  }
-
-  /* ─── Body ─── */
-  .form-body {
-    padding: 32px 36px 40px;
-  }
-
-  /* ─── Section ─── */
-  .section {
-    margin-bottom: 28px;
-  }
-  .section-title {
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--teal);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-title::after {
-    content: "";
-    flex: 1;
-    height: 1.5px;
-    background: linear-gradient(to left, transparent, var(--lavender));
-    border-radius: 4px;
-  }
-
-  /* ─── Grid layouts ─── */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr;  gap: 14px 22px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px 18px; }
-
-  /* ─── Field ─── */
-  .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label {
-    font-size: 12.5px;
-    font-weight: 500;
-    color: #5a6a7e;
-  }
-  .field .line-wrap {
-    position: relative;
-  }
-  .field input[type="text"],
-  .field input[type="date"],
-  .field input[type="number"] {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1.8px solid var(--line);
-    padding: 5px 2px 4px;
-    font-family: 'Heebo', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .field input:focus {
-    border-bottom-color: var(--teal);
-  }
-
-  /* ─── Percentile field ─── */
-  .perc-row {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: end;
-    gap: 8px;
-  }
-  .perc-separator {
-    font-size: 12px;
-    color: #aaa;
-    padding-bottom: 6px;
-    text-align: center;
-  }
-
-  /* ─── Vaccines ─── */
-  .vaccines-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  .vaccine-check {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #fff, #f8f4ff);
-    border: 1.5px solid var(--lavender);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-size: 13px;
-    color: #444;
-  }
-  .vaccine-check:hover {
-    border-color: var(--teal);
-    background: linear-gradient(135deg, #f0faf9, #e8f4fb);
-  }
-  .vaccine-check input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--teal);
-    flex-shrink: 0;
-  }
-  .vaccines-other {
-    margin-top: 10px;
-  }
-
-  /* ─── Textarea ─── */
-  .field textarea {
-    width: 100%;
-    border: 1.5px solid var(--line);
-    border-radius: 12px;
-    padding: 10px 12px;
-    font-family: 'Heebo', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: linear-gradient(180deg, #fff 0%, #faf9ff 100%);
-    outline: none;
-    resize: vertical;
-    min-height: 80px;
-    transition: border-color 0.2s;
-  }
-  .field textarea:focus {
-    border-color: var(--teal);
-  }
-
-  /* ─── Divider ─── */
-  .divider {
-    height: 1px;
-    background: linear-gradient(to left, transparent, var(--lavender), transparent);
-    margin: 28px 0;
-  }
-
-  /* ─── Badge row ─── */
-  .badge-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 4px;
-  }
-  .badge {
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-weight: 500;
-    background: var(--mint);
-    color: #2d7a5e;
-  }
-  .badge.pink   { background: var(--pink);     color: #9a4060; }
-  .badge.sky    { background: var(--sky);      color: #1a6a88; }
-  .badge.peach  { background: var(--peach);    color: #8a4e1a; }
-  .badge.yellow { background: var(--yellow);   color: #7a6010; }
-
-  /* ─── Footer ─── */
-  .form-footer {
-    background: linear-gradient(120deg, var(--mint), var(--sky), var(--lavender));
-    padding: 18px 36px;
-    text-align: center;
-    font-size: 12px;
-    color: #4a6a7e;
+  .logo-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 16px;
   }
-  .form-footer span { opacity: 0.8; }
+  .logo-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(100,60,20,0.12);
+    padding: 4px;
+  }
+  .title-block {
+    text-align: right;
+  }
+  .brand-name {
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--brown);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .brand-drop {
+    color: #5bbfd8;
+  }
+  .brand-sub {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-light);
+    margin-top: 4px;
+  }
 
-  /* ─── Print ─── */
+  /* ── Form body ── */
+  .form-body {
+    padding: 26px 30px 36px;
+  }
+
+  /* ── Date row ── */
+  .date-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .date-row span {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .date-row input[type="date"] {
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    border: none;
+    border-bottom: 1.5px solid var(--field-bdr);
+    background: transparent;
+    outline: none;
+    padding: 3px 8px;
+    color: var(--text);
+    width: 170px;
+    text-align: center;
+  }
+
+  /* ── Rounded field box ── */
+  .field-box {
+    background: var(--field-bg);
+    border: 1.5px solid var(--field-bdr);
+    border-radius: 14px;
+    padding: 10px 14px 12px;
+    margin-bottom: 14px;
+  }
+  .field-box .fb-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: right;
+    margin-bottom: 6px;
+  }
+  .field-box input[type="text"],
+  .field-box input[type="number"] {
+    width: 100%;
+    border: none;
+    border-bottom: 1px dashed var(--line-color);
+    background: transparent;
+    font-family: 'Heebo', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    padding: 4px 2px 3px;
+    outline: none;
+    display: block;
+    margin-top: 2px;
+  }
+  .field-box input + input {
+    margin-top: 10px;
+  }
+  .sub-label {
+    font-size: 11.5px;
+    color: var(--text-light);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ── Three columns ── */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .grid-3 .field-box { margin-bottom: 0; }
+
+  /* ── Section box (vaccines / recommendations / notes) ── */
+  .sec-box {
+    border: 1.5px solid var(--field-bdr);
+    border-radius: 14px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .sec-box.blue-theme {
+    border-color: var(--blue-bdr);
+  }
+  .sec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    border-bottom: 1px dashed var(--line-color);
+    background: #fdf9f4;
+  }
+  .sec-box.blue-theme .sec-head {
+    background: var(--blue-sec);
+    border-bottom-color: var(--blue-bdr);
+  }
+  .sec-icon { font-size: 22px; opacity: 0.75; }
+  .sec-lines {
+    background: #fff;
+    padding: 10px 14px;
+  }
+  .sec-box.blue-theme .sec-lines {
+    background: #f6fafd;
+  }
+  .sec-lines textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    resize: none;
+    outline: none;
+    min-height: 88px;
+    line-height: 29px;
+    /* lined paper effect */
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 28px,
+      var(--line-color) 28px,
+      var(--line-color) 29px
+    );
+    background-size: 100% 29px;
+    padding-top: 4px;
+  }
+
+  /* ── Footer ── */
+  .form-footer {
+    background: linear-gradient(130deg, #fff5ec, #e8f5ff, #f0ffed);
+    border-top: 1.5px dashed var(--field-bdr);
+    text-align: center;
+    padding: 14px;
+    font-size: 12.5px;
+    color: var(--text-light);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Print ── */
   @media print {
     body { background: white; }
-    .bg-decor { display: none; }
-    .page {
-      margin: 0;
-      border-radius: 0;
-      box-shadow: none;
-      backdrop-filter: none;
-      background: white;
-      max-width: 100%;
-    }
-    .form-footer { background: #eee; }
-    .vaccine-check { break-inside: avoid; }
+    .bg-deco { display: none; }
+    .page { margin: 0; border-radius: 0; box-shadow: none; max-width: 100%; background: white; }
+    .header, .form-footer { background: #f8f0e8; }
   }
 
-  @media (max-width: 600px) {
+  /* ── Mobile ── */
+  @media (max-width: 580px) {
     .page { margin: 0; border-radius: 0; }
-    .form-body { padding: 20px 20px 32px; }
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .vaccines-grid { grid-template-columns: 1fr 1fr; }
-    .perc-row { grid-template-columns: 1fr; }
-    .perc-separator { display: none; }
+    .form-body { padding: 18px 16px 28px; }
+    .grid-3 { grid-template-columns: 1fr; gap: 10px; }
+    .logo-wrap { flex-direction: column; gap: 10px; }
+    .title-block { text-align: center; }
+    .brand-name { font-size: 36px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Background floating bears -->
-<div class="bg-decor">🐻</div>
-<div class="bg-decor">🧸</div>
-<div class="bg-decor">🐨</div>
-<div class="bg-decor">🐼</div>
-<div class="bg-decor">🐻‍❄️</div>
-<div class="bg-decor">🧸</div>
-<div class="bg-decor">🐻</div>
-<div class="bg-decor">🌸</div>
+<!-- Floating background decorations -->
+<div class="bg-deco">🐻</div>
+<div class="bg-deco">🧸</div>
+<div class="bg-deco">🐨</div>
+<div class="bg-deco">🐼</div>
+<div class="bg-deco">🐻</div>
+<div class="bg-deco">🧸</div>
+<div class="bg-deco">⭐</div>
+<div class="bg-deco">🌸</div>
 
-<!-- Form card -->
 <div class="page">
 
-  <!-- Header -->
+  <!-- ── Header ── -->
   <div class="header">
-    <div class="clinic-name">טיפה בדרך · טיפת חלב פרטית</div>
-    <div class="form-title">🌷 כרטיס ביקור רפואי לתינוק</div>
-    <div class="form-subtitle">מידע אישי · מדדים · חיסונים · המלצות</div>
+    <div class="logo-wrap">
+      <img
+        src="https://www.dropbox.com/scl/fi/ccv9cavnbz043m5ar25lm/WhatsApp-Image-2026-03-11-at-21.30.55.jpeg?rlkey=5lp2l4fik3j2qysrla2k8s969&raw=1"
+        alt="טיפה בדרך לוגו"
+        class="logo-img"
+        onerror="this.style.display='none'"
+      >
+      <div class="title-block">
+        <div class="brand-name">טיפה <span class="brand-drop">💧</span> בדרך</div>
+        <div class="brand-sub">טיפת חלב פרטית · tipa-baderech.com</div>
+      </div>
+    </div>
   </div>
 
+  <!-- ── Form body ── -->
   <div class="form-body">
 
-    <!-- SECTION: פרטים אישיים -->
-    <div class="section">
-      <div class="section-title">🐣 פרטי הפעוט</div>
-      <div class="grid-2">
-        <div class="field" style="grid-column: 1 / -1;">
-          <label>שם מלא</label>
-          <div class="line-wrap"><input type="text" placeholder="שם פרטי ושם משפחה"></div>
-        </div>
-        <div class="field">
-          <label>תאריך ביקור</label>
-          <div class="line-wrap"><input type="date"></div>
-        </div>
-        <div class="field">
-          <label>תאריך לידה</label>
-          <div class="line-wrap"><input type="date"></div>
-        </div>
+    <!-- Date -->
+    <div class="date-row">
+      <span>:תאריך</span>
+      <input type="date">
+    </div>
+
+    <!-- Full name -->
+    <div class="field-box">
+      <div class="fb-label">שם מלא</div>
+      <input type="text">
+    </div>
+
+    <!-- Three measurements -->
+    <div class="grid-3">
+      <div class="field-box">
+        <div class="fb-label">משקל – אחוזון</div>
+        <span class="sub-label">משקל (ק"ג)</span>
+        <input type="number" step="0.01" placeholder="">
+        <span class="sub-label">אחוזון</span>
+        <input type="number" min="0" max="100" placeholder="">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">גובה – אחוזון</div>
+        <span class="sub-label">גובה (ס"מ)</span>
+        <input type="number" step="0.1" placeholder="">
+        <span class="sub-label">אחוזון</span>
+        <input type="number" min="0" max="100" placeholder="">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">היקף ראש – אחוזון</div>
+        <span class="sub-label">היקף ראש (ס"מ)</span>
+        <input type="number" step="0.1" placeholder="">
+        <span class="sub-label">אחוזון</span>
+        <input type="number" min="0" max="100" placeholder="">
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- SECTION: גילאים -->
-    <div class="section">
-      <div class="section-title">📅 גיל</div>
-      <div class="grid-2">
-        <div class="field">
-          <label>גיל כרונולוגי</label>
-          <div class="line-wrap"><input type="text" placeholder="לדוגמה: 3 חודשים ו-5 ימים"></div>
-        </div>
-        <div class="field">
-          <label>גיל מתוקן <span style="font-weight:300;font-size:11px;">(לפגים)</span></label>
-          <div class="line-wrap"><input type="text" placeholder="גיל מתוקן אם רלוונטי"></div>
-        </div>
+    <!-- Vaccinations -->
+    <div class="sec-box blue-theme">
+      <div class="sec-head">
+        חיסוכים שניתנו
+        <span class="sec-icon">💉</span>
+      </div>
+      <div class="sec-lines">
+        <textarea rows="3"></textarea>
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- SECTION: מדדים -->
-    <div class="section">
-      <div class="section-title">📏 מדדים ואחוזונים</div>
-      <div class="grid-3">
-
-        <!-- משקל -->
-        <div class="field">
-          <label>משקל (ק"ג)</label>
-          <div class="line-wrap"><input type="number" step="0.01" placeholder="0.00"></div>
-        </div>
-        <div class="field" style="grid-column: span 2;">
-          <label>אחוזון משקל</label>
-          <div class="perc-row">
-            <div>
-              <input type="number" min="0" max="100" placeholder="אחוזון" style="width:100%;border:none;border-bottom:1.8px solid var(--line);padding:5px 2px 4px;font-family:Heebo,sans-serif;font-size:14px;background:transparent;outline:none;">
-            </div>
-            <div class="perc-separator">%</div>
-            <div>
-              <input type="text" placeholder="פרשנות (תקין / מעל / מתחת)" style="width:100%;border:none;border-bottom:1.8px solid var(--line);padding:5px 2px 4px;font-family:Heebo,sans-serif;font-size:14px;background:transparent;outline:none;">
-            </div>
-          </div>
-        </div>
-
-        <!-- גובה -->
-        <div class="field">
-          <label>גובה / אורך (ס"מ)</label>
-          <div class="line-wrap"><input type="number" step="0.1" placeholder="0.0"></div>
-        </div>
-        <div class="field" style="grid-column: span 2;">
-          <label>אחוזון גובה</label>
-          <div class="perc-row">
-            <div>
-              <input type="number" min="0" max="100" placeholder="אחוזון" style="width:100%;border:none;border-bottom:1.8px solid var(--line);padding:5px 2px 4px;font-family:Heebo,sans-serif;font-size:14px;background:transparent;outline:none;">
-            </div>
-            <div class="perc-separator">%</div>
-            <div>
-              <input type="text" placeholder="פרשנות" style="width:100%;border:none;border-bottom:1.8px solid var(--line);padding:5px 2px 4px;font-family:Heebo,sans-serif;font-size:14px;background:transparent;outline:none;">
-            </div>
-          </div>
-        </div>
-
-        <!-- היקף ראש -->
-        <div class="field">
-          <label>היקף ראש (ס"מ)</label>
-          <div class="line-wrap"><input type="number" step="0.1" placeholder="0.0"></div>
-        </div>
-        <div class="field" style="grid-column: span 2;">
-          <label>אחוזון היקף ראש</label>
-          <div class="perc-row">
-            <div>
-              <input type="number" min="0" max="100" placeholder="אחוזון" style="width:100%;border:none;border-bottom:1.8px solid var(--line);padding:5px 2px 4px;font-family:Heebo,sans-serif;font-size:14px;background:transparent;outline:none;">
-            </div>
-            <div class="perc-separator">%</div>
-            <div>
-              <input type="text" placeholder="פרשנות" style="width:100%;border:none;border-bottom:1.8px solid var(--line);padding:5px 2px 4px;font-family:Heebo,sans-serif;font-size:14px;background:transparent;outline:none;">
-            </div>
-          </div>
-        </div>
-
+    <!-- Recommendations -->
+    <div class="sec-box">
+      <div class="sec-head">
+        המלצות
+        <span class="sec-icon">🐻</span>
+      </div>
+      <div class="sec-lines">
+        <textarea rows="3"></textarea>
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- SECTION: חיסונים -->
-    <div class="section">
-      <div class="section-title">💉 חיסונים שניתנו בביקור זה</div>
-      <div class="vaccines-grid">
-        <label class="vaccine-check"><input type="checkbox"> הקסוולנט</label>
-        <label class="vaccine-check"><input type="checkbox"> פוליו בטיפות</label>
-        <label class="vaccine-check"><input type="checkbox"> פנאומוקוק (PCV)</label>
-        <label class="vaccine-check"><input type="checkbox"> רוטה-וירוס</label>
-        <label class="vaccine-check"><input type="checkbox"> MMR (חצבת-חזרת-אדמת)</label>
-        <label class="vaccine-check"><input type="checkbox"> B-Hep (הפטיטיס B)</label>
-        <label class="vaccine-check"><input type="checkbox"> שעלת (DTP)</label>
-        <label class="vaccine-check"><input type="checkbox"> Hib</label>
-        <label class="vaccine-check"><input type="checkbox"> שפעת</label>
-        <label class="vaccine-check"><input type="checkbox"> אבעבועות רוח (VZV)</label>
-        <label class="vaccine-check"><input type="checkbox"> מנינגוקוק</label>
-        <label class="vaccine-check"><input type="checkbox"> A-Hep (הפטיטיס A)</label>
-      </div>
-      <div class="vaccines-other" style="margin-top:14px;">
-        <div class="field">
-          <label>חיסונים נוספים / הערות לגבי חיסונים</label>
-          <div class="line-wrap"><input type="text" placeholder="חיסון נוסף שניתן או הערה"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- SECTION: המלצות -->
-    <div class="section">
-      <div class="section-title">🌿 המלצות</div>
-      <div class="field">
-        <label>המלצות לאחר הביקור</label>
-        <textarea placeholder="לדוגמה: להמשיך הנקה, להתחיל דייסה בגיל 6 חודשים, ייעוץ שינה..."></textarea>
-      </div>
-      <div style="margin-top: 12px;">
-        <div class="badge-row">
-          <div style="font-size:12px;color:#888;margin-left:4px;">תחומי המלצה נפוצים:</div>
-          <span class="badge">תזונה</span>
-          <span class="badge pink">שינה</span>
-          <span class="badge sky">התפתחות מוטורית</span>
-          <span class="badge peach">הנקה / פורמולה</span>
-          <span class="badge yellow">מעקב</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- SECTION: הערות -->
-    <div class="section">
-      <div class="section-title">📝 הערות</div>
-      <div class="field">
-        <label>הערות כלליות</label>
-        <textarea rows="4" placeholder="הערות נוספות, דאגות ההורים, מעקב נדרש, פנייה לרופא..."></textarea>
-      </div>
-    </div>
-
-    <!-- Signature row -->
-    <div class="divider"></div>
-    <div class="grid-2" style="margin-top: 8px;">
-      <div class="field">
-        <label>שם האחות / האחיות</label>
-        <div class="line-wrap"><input type="text" placeholder=""></div>
-      </div>
-      <div class="field">
-        <label>חתימה</label>
-        <div class="line-wrap"><input type="text" placeholder=" "></div>
+    <!-- Notes -->
+    <div class="sec-box">
+      <div class="sec-head">הערות</div>
+      <div class="sec-lines">
+        <textarea rows="3"></textarea>
       </div>
     </div>
 
   </div><!-- /form-body -->
 
   <!-- Footer -->
-  <div class="form-footer">
-    <span>🐻</span>
-    <span>טיפה בדרך · טיפת חלב פרטית · www.tipa-baderech.com</span>
-    <span>🌸</span>
-  </div>
+  <div class="form-footer">tipa-baderech.com</div>
 
 </div><!-- /page -->
 
