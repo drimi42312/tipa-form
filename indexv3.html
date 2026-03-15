@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>טיפה בדרך — כרטיס ביקור</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brown:       #6b3f1a;
+    --brown-mid:   #a07050;
+    --text:        #4a3020;
+    --text-light:  #8a6848;
+    --line-color:  #d8cfc0;
+    --field-bdr:   #c8b89a;
+    --blue-sec:    #d6ecf6;
+    --blue-bdr:    #9bc5d8;
+    --green-sec:   #d8f5e2;
+    --green-bdr:   #8fcca0;
+    --yellow-sec:  #fff8d6;
+    --yellow-bdr:  #f0d080;
+  }
+
+  @keyframes float    { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-10px) rotate(3deg)} }
+  @keyframes floatAlt { 0%,100%{transform:translateY(0) rotate(4deg)}  50%{transform:translateY(-12px) rotate(-4deg)} }
+  @keyframes pop      { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    background: linear-gradient(150deg, #fce8e4 0%, #e8f4fb 30%, #f0ffe8 60%, #fef5e4 100%);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Floating bg emojis ── */
+  .bg-deco {
+    position: fixed; pointer-events: none; user-select: none;
+    z-index: 0; opacity: 0.11;
+  }
+  .bg-deco:nth-child(1)  { top:2%;   left:1%;   font-size:72px; animation:float    6s ease-in-out infinite; }
+  .bg-deco:nth-child(2)  { top:13%;  right:1%;  font-size:56px; animation:floatAlt 7s ease-in-out infinite 1s; }
+  .bg-deco:nth-child(3)  { top:30%;  left:0%;   font-size:52px; animation:float    8s ease-in-out infinite 2s; }
+  .bg-deco:nth-child(4)  { top:47%;  right:0%;  font-size:64px; animation:floatAlt 6.5s ease-in-out infinite 0.5s; }
+  .bg-deco:nth-child(5)  { top:63%;  left:2%;   font-size:54px; animation:float    7.5s ease-in-out infinite 1.5s; }
+  .bg-deco:nth-child(6)  { top:79%;  right:2%;  font-size:60px; animation:floatAlt 9s ease-in-out infinite 2s; }
+  .bg-deco:nth-child(7)  { bottom:3%;left:44%;  font-size:40px; animation:float    7s ease-in-out infinite 3s; }
+  .bg-deco:nth-child(8)  { top:22%;  left:46%;  font-size:32px; animation:floatAlt 8s ease-in-out infinite 0.8s; opacity:.07; }
+  .bg-deco:nth-child(9)  { top:38%;  right:3%;  font-size:44px; animation:float    9s ease-in-out infinite 1.2s; }
+  .bg-deco:nth-child(10) { top:56%;  left:45%;  font-size:34px; animation:floatAlt 6s ease-in-out infinite 2.5s; opacity:.08; }
+
+  /* ── Page card ── */
+  .page {
+    position: relative; z-index: 1;
+    max-width: 680px;
+    margin: 28px auto 52px;
+    background: rgba(255,253,248,0.96);
+    border-radius: 28px;
+    box-shadow: 0 10px 52px rgba(100,60,20,0.14);
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #fff5ec 0%, #ffe8f6 28%, #e8f5ff 58%, #f0ffed 100%);
+    padding: 26px 32px 20px;
+    text-align: center;
+    border-bottom: 2px dashed var(--field-bdr);
+    position: relative;
+  }
+  .hd { position:absolute; font-size:26px; opacity:0.55; }
+  .hd.a { top:10px; left:18px;  animation:pop 3s ease-in-out infinite; }
+  .hd.b { top:10px; right:18px; animation:pop 3s ease-in-out infinite 0.6s; }
+  .hd.c { bottom:10px; left:56px;  animation:pop 3s ease-in-out infinite 1.2s; }
+  .hd.d { bottom:10px; right:56px; animation:pop 3s ease-in-out infinite 1.8s; }
+
+  .logo-wrap {
+    display: flex; align-items: center; justify-content: center; gap: 18px;
+  }
+  .logo-img {
+    width: 88px; height: 88px; object-fit: contain;
+    border-radius: 50%; background: #fff;
+    box-shadow: 0 3px 14px rgba(100,60,20,0.15);
+    padding: 4px; border: 2.5px solid #f0d0b8;
+  }
+  .title-block { text-align: right; }
+  .brand-name { font-size: 42px; font-weight: 800; color: var(--brown); line-height: 1; letter-spacing: -1px; }
+  .brand-drop { color: #5bbfd8; }
+  .brand-sub { font-size: 13px; font-weight: 400; color: var(--text-light); margin-top: 5px; }
+
+  /* ── Form body ── */
+  .form-body { padding: 22px 26px 36px; }
+
+  /* ── Section heading ── */
+  .sec-title {
+    font-size: 12.5px; font-weight: 700; color: var(--text-light);
+    letter-spacing: 0.8px; margin: 20px 0 10px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .sec-title::after { content:''; flex:1; height:1px; background: var(--line-color); }
+
+  /* ── Info grid ── */
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 14px;
+  }
+
+  /* ── Field box ── */
+  .field-box {
+    background: #fff; border: 1.5px solid var(--field-bdr);
+    border-radius: 13px; padding: 9px 13px 10px;
+  }
+  .field-box.full { grid-column: 1 / -1; }
+  .field-box.mb   { margin-bottom: 14px; }
+  .fb-label { font-size: 11.5px; font-weight: 600; color: var(--text-light); margin-bottom: 4px; }
+  .field-box input[type="text"],
+  .field-box input[type="date"],
+  .field-box input[type="number"] {
+    width: 100%; border: none;
+    border-bottom: 1px dashed var(--line-color);
+    background: transparent; font-family: 'Heebo', sans-serif;
+    font-size: 15px; color: var(--text); padding: 3px 2px; outline: none; display: block;
+  }
+  .field-box input + input { margin-top: 8px; }
+
+  /* ── Measurements grid ── */
+  .grid-3 {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px; margin-bottom: 14px;
+  }
+  .meas-box {
+    background: linear-gradient(155deg, #fff8f0, #f5eeff);
+    border: 1.5px solid #dcc8f0; border-radius: 15px;
+    padding: 12px 12px 13px; text-align: center;
+  }
+  .meas-icon { font-size: 24px; margin-bottom: 3px; }
+  .meas-title { font-size: 12px; font-weight: 700; color: var(--brown); margin-bottom: 10px; }
+  .meas-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 5px; margin-top: 8px;
+  }
+  .meas-row .ml { font-size: 10.5px; color: var(--text-light); white-space: nowrap; }
+  .meas-row input {
+    flex: 1; min-width: 0; border: none;
+    border-bottom: 1px dashed var(--line-color);
+    background: transparent; font-family: 'Heebo', sans-serif;
+    font-size: 14px; color: var(--text); padding: 2px 3px; outline: none; text-align: center;
+  }
+
+  /* ── Vaccine section ── */
+  .vaccine-box {
+    border: 2px solid var(--blue-bdr); border-radius: 18px;
+    margin-bottom: 14px; overflow: hidden;
+  }
+  .vaccine-head {
+    background: linear-gradient(130deg, var(--blue-sec), #c4e6f5);
+    padding: 10px 16px; display: flex; align-items: center;
+    justify-content: space-between; border-bottom: 1px dashed var(--blue-bdr);
+  }
+  .vaccine-head-title { font-size: 14.5px; font-weight: 700; color: var(--text); }
+  .vaccine-head-icons { font-size: 19px; }
+  .vaccine-grid {
+    background: #f3faff; padding: 12px 16px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px;
+  }
+  .vaccine-item {
+    display: flex; align-items: center; gap: 9px;
+    padding: 7px 8px; border-radius: 10px;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .vaccine-item:hover { background: rgba(155,197,216,0.25); }
+  .vaccine-item input[type="checkbox"] {
+    width: 17px; height: 17px; accent-color: #5bbfd8;
+    cursor: pointer; flex-shrink: 0;
+  }
+  .vaccine-label {
+    font-size: 13px; font-weight: 500; color: var(--text);
+    user-select: none; line-height: 1.3;
+  }
+
+  /* ── Textarea sections ── */
+  .sec-box {
+    border: 1.5px solid var(--field-bdr); border-radius: 16px;
+    margin-bottom: 12px; overflow: hidden;
+  }
+  .sec-box.green  { border-color: var(--green-bdr); }
+  .sec-box.yellow { border-color: var(--yellow-bdr); }
+  .sec-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 14px; font-size: 14.5px; font-weight: 700; color: var(--text);
+    border-bottom: 1px dashed var(--line-color); background: #fdf9f4;
+  }
+  .sec-box.green  .sec-head { background: var(--green-sec);  border-bottom-color: var(--green-bdr); }
+  .sec-box.yellow .sec-head { background: var(--yellow-sec); border-bottom-color: var(--yellow-bdr); }
+  .sec-icon { font-size: 19px; }
+  .sec-lines { background: #fff; padding: 10px 14px; }
+  .sec-box.green  .sec-lines { background: #f5fff8; }
+  .sec-box.yellow .sec-lines { background: #fffdf0; }
+  .sec-lines textarea {
+    width: 100%; border: none; background: transparent;
+    font-family: 'Heebo', sans-serif; font-size: 14px; color: var(--text);
+    resize: none; outline: none; min-height: 84px; line-height: 29px;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px, transparent 28px,
+      var(--line-color) 28px, var(--line-color) 29px
+    );
+    background-size: 100% 29px; padding-top: 4px;
+  }
+
+  /* ── Footer ── */
+  .form-footer {
+    background: linear-gradient(130deg, #fff5ec, #ffe8f6, #e8f5ff, #f0ffed);
+    border-top: 1.5px dashed var(--field-bdr);
+    text-align: center; padding: 14px;
+    font-size: 12px; color: var(--text-light); letter-spacing: 0.5px;
+  }
+  .footer-row { font-size: 20px; margin-bottom: 5px; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; }
+    .bg-deco, .hd { display: none; }
+    .page { margin: 0; border-radius: 0; box-shadow: none; max-width: 100%; background: white; }
+    .header, .form-footer { background: #f8f0e8; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 580px) {
+    .page { margin: 0; border-radius: 0; }
+    .form-body { padding: 16px 14px 28px; }
+    .grid-3, .info-grid, .vaccine-grid { grid-template-columns: 1fr; }
+    .logo-wrap { flex-direction: column; gap: 10px; }
+    .title-block { text-align: center; }
+    .brand-name { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-deco">🐻</div>
+<div class="bg-deco">🧸</div>
+<div class="bg-deco">🐨</div>
+<div class="bg-deco">👶</div>
+<div class="bg-deco">🍼</div>
+<div class="bg-deco">🌸</div>
+<div class="bg-deco">⭐</div>
+<div class="bg-deco">🦋</div>
+<div class="bg-deco">🌟</div>
+<div class="bg-deco">🐣</div>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="hd a">🐻</div>
+    <div class="hd b">🌸</div>
+    <div class="hd c">⭐</div>
+    <div class="hd d">🧸</div>
+    <div class="logo-wrap">
+      <img
+        src="https://www.dropbox.com/scl/fi/ccv9cavnbz043m5ar25lm/WhatsApp-Image-2026-03-11-at-21.30.55.jpeg?rlkey=5lp2l4fik3j2qysrla2k8s969&raw=1"
+        alt="טיפה בדרך לוגו" class="logo-img"
+        onerror="this.style.display='none'"
+      >
+      <div class="title-block">
+        <div class="brand-name">טיפה <span class="brand-drop">💧</span> בדרך</div>
+        <div class="brand-sub">טיפת חלב פרטית · tipa-baderech.com</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-body">
+
+    <!-- Patient info -->
+    <div class="sec-title">👶 פרטי התינוק/ת</div>
+
+    <div class="field-box full mb">
+      <div class="fb-label">שם מלא</div>
+      <input type="text">
+    </div>
+
+    <div class="info-grid">
+      <div class="field-box">
+        <div class="fb-label">תאריך ביקור</div>
+        <input type="date">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">תאריך לידה</div>
+        <input type="date">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">גיל כרונולוגי</div>
+        <input type="text" placeholder="לדוגמה: 4 חודשים">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">גיל מתוקן</div>
+        <input type="text" placeholder="לדוגמה: 2 חודשים">
+      </div>
+    </div>
+
+    <!-- Measurements -->
+    <div class="sec-title">📏 מדידות</div>
+    <div class="grid-3">
+      <div class="meas-box">
+        <div class="meas-icon">⚖️</div>
+        <div class="meas-title">משקל</div>
+        <div class="meas-row">
+          <span class="ml">ק"ג</span>
+          <input type="number" step="0.01">
+        </div>
+        <div class="meas-row">
+          <span class="ml">אחוזון</span>
+          <input type="number" min="0" max="100">
+        </div>
+      </div>
+      <div class="meas-box">
+        <div class="meas-icon">📐</div>
+        <div class="meas-title">גובה</div>
+        <div class="meas-row">
+          <span class="ml">ס"מ</span>
+          <input type="number" step="0.1">
+        </div>
+        <div class="meas-row">
+          <span class="ml">אחוזון</span>
+          <input type="number" min="0" max="100">
+        </div>
+      </div>
+      <div class="meas-box">
+        <div class="meas-icon">🔵</div>
+        <div class="meas-title">היקף ראש</div>
+        <div class="meas-row">
+          <span class="ml">ס"מ</span>
+          <input type="number" step="0.1">
+        </div>
+        <div class="meas-row">
+          <span class="ml">אחוזון</span>
+          <input type="number" min="0" max="100">
+        </div>
+      </div>
+    </div>
+
+    <!-- Vaccines -->
+    <div class="sec-title">💉 חיסונים</div>
+    <div class="vaccine-box">
+      <div class="vaccine-head">
+        <div class="vaccine-head-title">חיסונים שניתנו בביקור זה</div>
+        <div class="vaccine-head-icons">💉 🌟</div>
+      </div>
+      <div class="vaccine-grid">
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">הקסוולנט</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">RSV</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">פנאומוקוק (PCV)</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">רוטה-וירוס</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">MMR (חצבת-חזרת-אדמת)</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">B-Hep (הפטיטיס B)</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">שעלת DTP-IPV-HIB</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">Hib</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">שפעת</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">אבעבועות רוח (VZV)</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">בקסרו</span>
+        </label>
+        <label class="vaccine-item">
+          <input type="checkbox">
+          <span class="vaccine-label">A-Hep (הפטיטיס A)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="sec-title">🌿 המלצות והנחיות</div>
+    <div class="sec-box green">
+      <div class="sec-head">
+        המלצות
+        <span class="sec-icon">🐻</span>
+      </div>
+      <div class="sec-lines">
+        <textarea rows="4"></textarea>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="sec-box yellow">
+      <div class="sec-head">
+        הערות
+        <span class="sec-icon">📝</span>
+      </div>
+      <div class="sec-lines">
+        <textarea rows="3"></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-footer">
+    <div class="footer-row">🐻 🌸 👶 🍼 🌸 🐨</div>
+    tipa-baderech.com
+  </div>
+
+</div>
+</body>
+</html>
