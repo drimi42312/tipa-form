@@ -6,6 +6,8 @@
 <title>טיפה בדרך — כרטיס ביקור</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { overflow-x: hidden; }
@@ -637,6 +639,17 @@ function exportPDF() {
     if (wasHidden) chartsEl.classList.add('hidden');
   }, 400);
 }
+
+/* ── Date pickers ───────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() {
+  const fpOpts = {
+    dateFormat: 'd/m/Y',
+    allowInput: true,
+    onChange: function() { calcAge(); updatePercentiles(); }
+  };
+  flatpickr('#f-visit', fpOpts);
+  flatpickr('#f-dob',   fpOpts);
+});
 </script>
 </body>
 </html>
