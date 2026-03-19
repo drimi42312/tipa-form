@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>טיפה בדרך — כרטיס ביקור</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brown:      #6b3f1a;
+    --brown-mid:  #a07050;
+    --brown-soft: #c8a882;
+    --blue-sec:   #d6ecf6;
+    --blue-bdr:   #9bc5d8;
+    --field-bg:   #ffffff;
+    --field-bdr:  #c8b89a;
+    --text:       #4a3020;
+    --text-light: #8a6848;
+    --line-color: #d8cfc0;
+  }
+
+  @keyframes float    { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-10px) rotate(3deg)} }
+  @keyframes floatAlt { 0%,100%{transform:translateY(0) rotate(4deg)}  50%{transform:translateY(-12px) rotate(-4deg)} }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    background: linear-gradient(150deg, #fce8e4 0%, #e8f4fb 35%, #edf9e8 65%, #fef5e4 100%);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Floating background emojis ── */
+  .bg-deco {
+    position: fixed; pointer-events: none; user-select: none;
+    z-index: 0; opacity: 0.14; font-size: 60px;
+  }
+  .bg-deco:nth-child(1) { top:3%;   left:2%;   font-size:76px; animation:float    6s ease-in-out infinite; }
+  .bg-deco:nth-child(2) { top:14%;  right:2%;  font-size:58px; animation:floatAlt 7s ease-in-out infinite 1s; }
+  .bg-deco:nth-child(3) { top:40%;  left:1%;   font-size:52px; animation:float    8s ease-in-out infinite 2s; }
+  .bg-deco:nth-child(4) { top:58%;  right:1%;  font-size:68px; animation:floatAlt 6.5s ease-in-out infinite 0.5s; }
+  .bg-deco:nth-child(5) { top:75%;  left:3%;   font-size:56px; animation:float    7.5s ease-in-out infinite 1.5s; }
+  .bg-deco:nth-child(6) { bottom:4%;right:3%;  font-size:64px; animation:floatAlt 9s ease-in-out infinite 2s; }
+  .bg-deco:nth-child(7) { bottom:8%;left:44%;  font-size:42px; animation:float    7s ease-in-out infinite 3s; }
+  .bg-deco:nth-child(8) { top:28%;  left:47%;  font-size:36px; animation:floatAlt 8s ease-in-out infinite 0.8s; opacity:.08; }
+
+  /* ── Page card ── */
+  .page {
+    position: relative; z-index: 1;
+    max-width: 660px;
+    margin: 28px auto 52px;
+    background: rgba(255,253,248,0.93);
+    border-radius: 26px;
+    box-shadow: 0 8px 48px rgba(100,60,20,0.14);
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(130deg, #fff5ec, #e8f5ff, #f0ffed);
+    padding: 26px 32px 20px;
+    text-align: center;
+    border-bottom: 1.5px dashed var(--field-bdr);
+    position: relative;
+  }
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .logo-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(100,60,20,0.12);
+    padding: 4px;
+  }
+  .title-block {
+    text-align: right;
+  }
+  .brand-name {
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--brown);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .brand-drop {
+    color: #5bbfd8;
+  }
+  .brand-sub {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-light);
+    margin-top: 4px;
+  }
+
+  /* ── Form body ── */
+  .form-body {
+    padding: 26px 30px 36px;
+  }
+
+  /* ── Date row ── */
+  .date-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .date-row span {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .date-row input[type="date"] {
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    border: none;
+    border-bottom: 1.5px solid var(--field-bdr);
+    background: transparent;
+    outline: none;
+    padding: 3px 8px;
+    color: var(--text);
+    width: 170px;
+    text-align: center;
+  }
+
+  /* ── Rounded field box ── */
+  .field-box {
+    background: var(--field-bg);
+    border: 1.5px solid var(--field-bdr);
+    border-radius: 14px;
+    padding: 10px 14px 12px;
+    margin-bottom: 14px;
+  }
+  .field-box .fb-label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: right;
+    margin-bottom: 6px;
+  }
+  .field-box input[type="text"],
+  .field-box input[type="number"] {
+    width: 100%;
+    border: none;
+    border-bottom: 1px dashed var(--line-color);
+    background: transparent;
+    font-family: 'Heebo', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    padding: 4px 2px 3px;
+    outline: none;
+    display: block;
+    margin-top: 2px;
+  }
+  .field-box input + input {
+    margin-top: 10px;
+  }
+  .sub-label {
+    font-size: 11.5px;
+    color: var(--text-light);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ── Three columns ── */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .grid-3 .field-box { margin-bottom: 0; }
+
+  /* ── Section box (vaccines / recommendations / notes) ── */
+  .sec-box {
+    border: 1.5px solid var(--field-bdr);
+    border-radius: 14px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .sec-box.blue-theme {
+    border-color: var(--blue-bdr);
+  }
+  .sec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    border-bottom: 1px dashed var(--line-color);
+    background: #fdf9f4;
+  }
+  .sec-box.blue-theme .sec-head {
+    background: var(--blue-sec);
+    border-bottom-color: var(--blue-bdr);
+  }
+  .sec-icon { font-size: 22px; opacity: 0.75; }
+  .sec-lines {
+    background: #fff;
+    padding: 10px 14px;
+  }
+  .sec-box.blue-theme .sec-lines {
+    background: #f6fafd;
+  }
+  .sec-lines textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    resize: none;
+    outline: none;
+    min-height: 88px;
+    line-height: 29px;
+    /* lined paper effect */
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 28px,
+      var(--line-color) 28px,
+      var(--line-color) 29px
+    );
+    background-size: 100% 29px;
+    padding-top: 4px;
+  }
+
+  /* ── Footer ── */
+  .form-footer {
+    background: linear-gradient(130deg, #fff5ec, #e8f5ff, #f0ffed);
+    border-top: 1.5px dashed var(--field-bdr);
+    text-align: center;
+    padding: 14px;
+    font-size: 12.5px;
+    color: var(--text-light);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; }
+    .bg-deco { display: none; }
+    .page { margin: 0; border-radius: 0; box-shadow: none; max-width: 100%; background: white; }
+    .header, .form-footer { background: #f8f0e8; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 580px) {
+    .page { margin: 0; border-radius: 0; }
+    .form-body { padding: 18px 16px 28px; }
+    .grid-3 { grid-template-columns: 1fr; gap: 10px; }
+    .logo-wrap { flex-direction: column; gap: 10px; }
+    .title-block { text-align: center; }
+    .brand-name { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating background decorations -->
+<div class="bg-deco">🐻</div>
+<div class="bg-deco">🧸</div>
+<div class="bg-deco">🐨</div>
+<div class="bg-deco">🐼</div>
+<div class="bg-deco">🐻</div>
+<div class="bg-deco">🧸</div>
+<div class="bg-deco">⭐</div>
+<div class="bg-deco">🌸</div>
+
+<div class="page">
+
+  <!-- ── Header ── -->
+  <div class="header">
+    <div class="logo-wrap">
+      <img
+        src="https://www.dropbox.com/scl/fi/ccv9cavnbz043m5ar25lm/WhatsApp-Image-2026-03-11-at-21.30.55.jpeg?rlkey=5lp2l4fik3j2qysrla2k8s969&raw=1"
+        alt="טיפה בדרך לוגו"
+        class="logo-img"
+        onerror="this.style.display='none'"
+      >
+      <div class="title-block">
+        <div class="brand-name">טיפה <span class="brand-drop">💧</span> בדרך</div>
+        <div class="brand-sub">טיפת חלב פרטית · tipa-baderech.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Form body ── -->
+  <div class="form-body">
+
+    <!-- Date -->
+    <div class="date-row">
+      <span>:תאריך</span>
+      <input type="date">
+    </div>
+
+    <!-- Full name -->
+    <div class="field-box">
+      <div class="fb-label">שם מלא</div>
+      <input type="text">
+    </div>
+
+    <!-- Three measurements -->
+    <div class="grid-3">
+      <div class="field-box">
+        <div class="fb-label">משקל – אחוזון</div>
+        <span class="sub-label">משקל (ק"ג)</span>
+        <input type="number" step="0.01" placeholder="">
+        <span class="sub-label">אחוזון</span>
+        <input type="number" min="0" max="100" placeholder="">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">גובה – אחוזון</div>
+        <span class="sub-label">גובה (ס"מ)</span>
+        <input type="number" step="0.1" placeholder="">
+        <span class="sub-label">אחוזון</span>
+        <input type="number" min="0" max="100" placeholder="">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">היקף ראש – אחוזון</div>
+        <span class="sub-label">היקף ראש (ס"מ)</span>
+        <input type="number" step="0.1" placeholder="">
+        <span class="sub-label">אחוזון</span>
+        <input type="number" min="0" max="100" placeholder="">
+      </div>
+    </div>
+
+    <!-- Vaccinations -->
+    <div class="sec-box blue-theme">
+      <div class="sec-head">
+        חיסוכים שניתנו
+        <span class="sec-icon">💉</span>
+      </div>
+      <div class="sec-lines">
+        <textarea rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="sec-box">
+      <div class="sec-head">
+        המלצות
+        <span class="sec-icon">🐻</span>
+      </div>
+      <div class="sec-lines">
+        <textarea rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="sec-box">
+      <div class="sec-head">הערות</div>
+      <div class="sec-lines">
+        <textarea rows="3"></textarea>
+      </div>
+    </div>
+
+  </div><!-- /form-body -->
+
+  <!-- Footer -->
+  <div class="form-footer">tipa-baderech.com</div>
+
+</div><!-- /page -->
+
+</body>
+</html>
