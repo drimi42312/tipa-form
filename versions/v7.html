@@ -243,7 +243,7 @@ body {
 
     <!-- Sex toggle -->
     <div class="sex-toggle">
-      <button class="sex-btn" id="btn-boy"  onclick="setSex('boy')">👦 זכר</button>
+      <button class="sex-btn active-boy" id="btn-boy"  onclick="setSex('boy')">👦 זכר</button>
       <button class="sex-btn" id="btn-girl" onclick="setSex('girl')">👧 נקבה</button>
     </div>
 
@@ -273,19 +273,19 @@ body {
         <div class="meas-icon">⚖️</div>
         <div class="meas-title">משקל</div>
         <div class="meas-row"><span class="ml">ק"ג</span><input type="number" step="0.01" id="m-weight" oninput="updatePercentiles()"></div>
-        <div class="meas-row"><span class="ml">אחוזון</span><input type="number" id="p-weight" class="auto" readonly placeholder="—"></div>
+        <div class="meas-row"><span class="ml">אחוזון</span><input type="text" id="p-weight" class="auto" readonly placeholder="—"></div>
       </div>
       <div class="meas-box">
         <div class="meas-icon">📐</div>
         <div class="meas-title">גובה</div>
         <div class="meas-row"><span class="ml">ס"מ</span><input type="number" step="0.1" id="m-height" oninput="updatePercentiles()"></div>
-        <div class="meas-row"><span class="ml">אחוזון</span><input type="number" id="p-height" class="auto" readonly placeholder="—"></div>
+        <div class="meas-row"><span class="ml">אחוזון</span><input type="text" id="p-height" class="auto" readonly placeholder="—"></div>
       </div>
       <div class="meas-box">
         <div class="meas-icon">🔵</div>
         <div class="meas-title">היקף ראש</div>
         <div class="meas-row"><span class="ml">ס"מ</span><input type="number" step="0.1" id="m-hc" oninput="updatePercentiles()"></div>
-        <div class="meas-row"><span class="ml">אחוזון</span><input type="number" id="p-hc" class="auto" readonly placeholder="—"></div>
+        <div class="meas-row"><span class="ml">אחוזון</span><input type="text" id="p-hc" class="auto" readonly placeholder="—"></div>
       </div>
     </div>
 
@@ -461,7 +461,7 @@ function lmsToVal(L, M, S, z) {
 }
 
 /* ── State ─────────────────────────────────────────────────────────────────── */
-let sex = null;
+let sex = 'boys';
 let ageMonths = null;
 
 function setSex(s) {
