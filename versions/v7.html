@@ -506,6 +506,7 @@ function getEffectiveAge() {
 }
 
 function updatePercentiles() {
+  calcAge();
   const age = getEffectiveAge();
   if (age === null || !sex) {
     ['weight','height','hc'].forEach(t => { document.getElementById('p-'+t).value = ''; });
