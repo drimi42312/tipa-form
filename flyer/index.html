@@ -10,335 +10,295 @@
 
 :root {
   --navy:    #1e2d3d;
-  --navy2:   #2e4060;
-  --brown:   #c06535;
-  --brown2:  #a0501f;
-  --text:    #1e2d3d;
   --muted:   #5a6a7a;
+  --brown:   #c06535;
+  --brown2:  #a04f22;
   --peach:   #f5e0c8;
   --lavender:#ede8f8;
   --mint:    #d8eef5;
-  --cream:   #faf6f0;
-  --border:  rgba(30,45,60,.10);
+  --border:  rgba(30,45,60,.09);
 }
 
 body {
   font-family: 'Heebo', sans-serif;
   min-height: 100vh;
-  /* Hero gradient — matches tipa-baderech.com */
   background: linear-gradient(160deg,
-    #c8d8c4 0%,
-    #d8cce0 30%,
-    #e8d0c8 55%,
-    #eee4d4 75%,
-    #f0ece4 100%);
+    #c8d8c4 0%, #d8cce0 30%, #e8d0c8 58%, #eee4d4 80%, #f0ece4 100%);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
   padding: 32px 16px 48px;
 }
 
-/* ── Card ─────────────────────────────────────── */
+/* ── Card ───────────────────────────────────── */
 .card {
-  width: 100%;
-  max-width: 460px;
-  background: rgba(250,246,240,.97);
+  width: 100%; max-width: 460px;
+  background: rgba(250,246,240,.98);
   border-radius: 32px;
-  box-shadow:
-    0 24px 80px rgba(30,45,60,.14),
-    0 2px 8px  rgba(30,45,60,.06);
+  box-shadow: 0 24px 80px rgba(30,45,60,.16), 0 2px 8px rgba(30,45,60,.06);
   overflow: hidden;
 }
 
-/* ── Hero ─────────────────────────────────────── */
+/* ── Hero ───────────────────────────────────── */
 .hero {
   background: linear-gradient(160deg,
-    #c8d8c4 0%,
-    #d8cce0 35%,
-    #e8d0c8 65%,
-    #eeddd0 100%);
-  padding: 40px 28px 32px;
+    #c8d8c4 0%, #d8cce0 35%, #e8d0c8 65%, #eeddd0 100%);
+  padding: 36px 28px 28px;
   text-align: center;
 }
-
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.logo-img {
-  width: 82px; height: 82px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: rgba(255,255,255,.9);
-  box-shadow: 0 4px 20px rgba(30,45,60,.15);
-  border: 3px solid rgba(255,255,255,.8);
-}
-
-.brand-text { text-align: right; }
 
 .brand-name {
-  font-size: 42px;
-  font-weight: 900;
-  color: var(--navy);
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
-.brand-sub {
-  font-size: 14px;
-  color: var(--muted);
-  font-weight: 500;
-  margin-top: 5px;
-}
-
-/* hero pills (matching site style) */
-.hero-pills {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 18px;
-}
-
-.pill {
-  background: rgba(255,255,255,.75);
-  border: 1.5px solid rgba(255,255,255,.9);
-  border-radius: 100px;
-  padding: 6px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--navy2);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  backdrop-filter: blur(4px);
-}
-.pill-heart { color: #c06070; font-size: 12px; }
-
-/* ── Body ─────────────────────────────────────── */
-.body { padding: 28px 22px 24px; }
-
-/* ── Section label ────────────────────────────── */
-.sec-label {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--navy);
-  text-align: center;
+  font-size: 46px; font-weight: 900;
+  color: var(--navy); line-height: 1; letter-spacing: -1px;
   margin-bottom: 6px;
 }
-.sec-sub {
-  font-size: 13px;
-  color: var(--muted);
-  text-align: center;
-  margin-bottom: 20px;
+.brand-sub {
+  font-size: 14px; color: var(--muted); font-weight: 500;
+  margin-bottom: 18px;
 }
 
-/* ── Services grid ────────────────────────────── */
+.hero-pills {
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 8px;
+}
+.pill {
+  background: rgba(255,255,255,.72);
+  border: 1.5px solid rgba(255,255,255,.9);
+  border-radius: 100px;
+  padding: 6px 15px;
+  font-size: 13px; font-weight: 600; color: var(--navy);
+  display: flex; align-items: center; gap: 5px;
+  backdrop-filter: blur(4px);
+}
+.pill-heart { color: #b06070; font-size: 12px; }
+
+/* ── Nurses ──────────────────────────────────── */
+.nurses-section {
+  background: white;
+  padding: 26px 22px 22px;
+  border-bottom: 1.5px solid var(--border);
+}
+
+.nurses-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.nurse-card {
+  flex: 1; max-width: 190px;
+  text-align: center;
+}
+
+.nurse-photo {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 3.5px solid white;
+  box-shadow: 0 6px 24px rgba(30,45,60,.14);
+  margin-bottom: 10px;
+  background: var(--lavender);
+}
+
+.nurse-name {
+  font-size: 16px; font-weight: 800; color: var(--navy);
+  margin-bottom: 3px;
+}
+.nurse-title {
+  font-size: 11.5px; color: var(--muted); font-weight: 500;
+  line-height: 1.4;
+}
+
+.nurses-badge {
+  text-align: center;
+  font-size: 14px; font-weight: 600; color: var(--muted);
+}
+
+/* ── Body ────────────────────────────────────── */
+.body { padding: 24px 22px 22px; }
+
+.sec-label {
+  font-size: 20px; font-weight: 800; color: var(--navy);
+  text-align: center; margin-bottom: 16px;
+}
+
+/* ── Services ────────────────────────────────── */
 .services {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 }
 
 .svc {
-  border-radius: 20px;
-  padding: 16px 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
+  border-radius: 18px;
+  padding: 14px 12px;
+  display: flex; align-items: flex-start; gap: 9px;
 }
 .svc:nth-child(1) { background: var(--peach); }
 .svc:nth-child(2) { background: var(--lavender); }
 .svc:nth-child(3) { background: var(--mint); }
 .svc:nth-child(4) { background: var(--peach); }
-.svc:nth-child(5) { background: var(--lavender); grid-column: 1 / -1; flex-direction: row; align-items: center; }
 
 .svc-icon-wrap {
   background: rgba(255,255,255,.75);
-  border-radius: 12px;
-  width: 40px; height: 40px;
+  border-radius: 11px;
+  width: 36px; height: 36px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
+  font-size: 18px;
 }
-
 .svc-text {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--navy);
-  line-height: 1.3;
+  font-size: 13px; font-weight: 700; color: var(--navy); line-height: 1.35;
+  padding-top: 2px;
 }
 
-/* ── Divider ──────────────────────────────────── */
+/* full-width service */
+.svc-full {
+  background: var(--lavender);
+  border-radius: 18px;
+  padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.svc-full .svc-icon-wrap { background: rgba(255,255,255,.75); }
+.svc-full .svc-text { font-size: 13.5px; }
+
+/* ── Divider ─────────────────────────────────── */
 .divider {
-  border: none;
-  border-top: 1.5px solid var(--border);
-  margin: 4px 0 22px;
+  border: none; border-top: 1.5px solid var(--border);
+  margin: 4px 0 20px;
 }
 
-/* ── Contact card ─────────────────────────────── */
-.contact-card {
-  background: white;
-  border-radius: 24px;
-  border: 1.5px solid var(--border);
-  overflow: hidden;
-  margin-bottom: 14px;
-}
-
-.nurses-header {
-  background: linear-gradient(135deg, var(--peach), var(--lavender));
-  padding: 16px 20px;
-  text-align: center;
-}
-
-.nurses-name {
-  font-size: 19px;
-  font-weight: 800;
-  color: var(--navy);
-  margin-bottom: 3px;
-}
-
-.nurses-badge {
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 500;
+/* ── Contact ─────────────────────────────────── */
+.contact-label-top {
+  font-size: 20px; font-weight: 800; color: var(--navy);
+  text-align: center; margin-bottom: 12px;
 }
 
 .contact-list {
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: flex; flex-direction: column; gap: 9px;
+  margin-bottom: 16px;
 }
 
 .contact-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 14px;
-  text-decoration: none;
-  color: var(--navy);
-  transition: opacity .15s;
-  font-size: 14px;
-  font-weight: 600;
+  display: flex; align-items: center; gap: 13px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  text-decoration: none; color: var(--navy);
+  transition: transform .15s, box-shadow .15s;
+  border: 1.5px solid transparent;
 }
-.contact-row:hover { opacity: .8; }
+.contact-row:hover { transform: translateX(-3px); box-shadow: 0 4px 16px rgba(30,45,60,.1); }
 
-.contact-row.wa  { background: #eef8ee; }
-.contact-row.web { background: #eef4fb; }
-.contact-row.ig  { background: #fceef8; }
+.contact-row.wa  { background: #eef9ee; border-color: #c8e8c8; }
+.contact-row.web { background: #eef4fb; border-color: #c8d8f0; }
+.contact-row.ig  { background: #fdf0fa; border-color: #f0c8e8; }
 
-.contact-icon { font-size: 20px; flex-shrink: 0; }
+/* Brand icon circles */
+.brand-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.brand-icon.wa  { background: #25d366; }
+.brand-icon.web { background: #3a7bd5; }
+.brand-icon.ig  { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+
+.brand-icon svg { width: 22px; height: 22px; fill: white; }
 
 .contact-detail { flex: 1; }
 .contact-label-sm {
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: .5px;
-  color: var(--muted);
-  margin-bottom: 1px;
+  font-size: 10px; font-weight: 700; letter-spacing: .6px;
+  color: var(--muted); margin-bottom: 1px; text-transform: uppercase;
 }
 .contact-val {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--navy);
+  font-size: 14px; font-weight: 700; color: var(--navy);
 }
 .contact-val.ltr { direction: ltr; display: block; text-align: right; }
 
-/* ── Location ─────────────────────────────────── */
+.contact-arrow { font-size: 13px; color: #bbb; }
+
+/* ── Location ────────────────────────────────── */
 .location {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  background: white;
-  border: 1.5px solid var(--border);
-  border-radius: 100px;
-  padding: 9px 22px;
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--navy2);
-  margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: white; border: 1.5px solid var(--border);
+  border-radius: 100px; padding: 9px 22px;
+  font-size: 13.5px; font-weight: 700; color: var(--navy);
+  margin-bottom: 16px;
 }
 
-/* ── CTA button ───────────────────────────────── */
+/* ── CTA ─────────────────────────────────────── */
 .cta {
-  display: block;
-  background: var(--brown);
-  color: white;
-  text-align: center;
-  font-family: 'Heebo', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  padding: 14px 20px;
-  border-radius: 100px;
-  text-decoration: none;
-  margin-bottom: 4px;
-  transition: background .15s, transform .15s;
-  border: none; cursor: pointer; width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: var(--brown); color: white;
+  font-family: 'Heebo', sans-serif; font-size: 16px; font-weight: 800;
+  padding: 14px 20px; border-radius: 100px;
+  text-decoration: none; border: none; cursor: pointer; width: 100%;
+  transition: background .15s, transform .12s;
 }
-.cta:hover { background: var(--brown2); transform: translateY(-1px); }
+.cta:hover { background: var(--brown2); transform: translateY(-2px); }
+.cta svg { width: 20px; height: 20px; fill: white; }
 
-/* ── Footer ───────────────────────────────────── */
+/* ── Footer ──────────────────────────────────── */
 .footer {
-  text-align: center;
-  padding: 16px 16px 20px;
-  border-top: 1.5px solid var(--border);
-  margin-top: 20px;
+  text-align: center; padding: 14px 16px 20px;
+  border-top: 1.5px solid var(--border); margin-top: 20px;
+  font-size: 12.5px; color: var(--muted); font-weight: 500;
 }
 
-.footer-site {
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-/* ── Responsive ───────────────────────────────── */
+/* ── Responsive ──────────────────────────────── */
 @media (max-width: 400px) {
-  .hero { padding: 28px 18px 24px; }
-  .brand-name { font-size: 34px; }
-  .body { padding: 20px 16px 18px; }
+  .brand-name { font-size: 36px; }
+  .hero { padding: 26px 16px 22px; }
+  .body { padding: 18px 16px 18px; }
+  .nurses-section { padding: 20px 16px 18px; }
+  .nurse-photo { width: 90px; height: 90px; }
   .services { grid-template-columns: 1fr; }
-  .svc:nth-child(5) { grid-column: 1; }
 }
 </style>
 </head>
 <body>
-
 <div class="card">
 
-  <!-- ── Hero ──────────────────────────────────── -->
+  <!-- ── Hero ─────────────────────────────────── -->
   <div class="hero">
-    <div class="logo-wrap">
-      <img class="logo-img"
-        src="https://www.dropbox.com/scl/fi/ccv9cavnbz043m5ar25lm/WhatsApp-Image-2026-03-11-at-21.30.55.jpeg?rlkey=5lp2l4fik3j2qysrla2k8s969&raw=1"
-        alt="טיפה בדרך"
-        onerror="this.style.display='none'">
-      <div class="brand-text">
-        <div class="brand-name">טיפה בדרך</div>
-        <div class="brand-sub">טיפת חלב פרטית</div>
-      </div>
-    </div>
-
+    <div class="brand-name">טיפה בדרך</div>
+    <div class="brand-sub">טיפת חלב פרטית</div>
     <div class="hero-pills">
       <span class="pill"><span class="pill-heart">♡</span> אחיות מנוסות</span>
       <span class="pill"><span class="pill-heart">♡</span> זמינות גבוהה</span>
-      <span class="pill"><span class="pill-heart">♡</span> שירות אישי בגוש דן</span>
+      <span class="pill"><span class="pill-heart">♡</span> שירות אישי</span>
     </div>
   </div>
 
-  <!-- ── Body ───────────────────────────────────── -->
+  <!-- ── Nurses ────────────────────────────────── -->
+  <div class="nurses-section">
+    <div class="nurses-row">
+      <div class="nurse-card">
+        <img class="nurse-photo"
+          src="https://www.tipa-baderech.com/assets/שרה.png"
+          alt="שרה פוזנר"
+          onerror="this.style.background='var(--lavender)';this.style.opacity='.4'">
+        <div class="nurse-name">שרה פוזנר</div>
+        <div class="nurse-title">אחות מוסמכת<br>מדריכת הורים לתינוקות</div>
+      </div>
+      <div class="nurse-card">
+        <img class="nurse-photo"
+          src="https://www.tipa-baderech.com/assets/אנליה.png"
+          alt="אנליה אליס"
+          onerror="this.style.background='var(--peach)';this.style.opacity='.4'">
+        <div class="nurse-name">אנליה אליס</div>
+        <div class="nurse-title">אחות מוסמכת<br>מדריכת הנקה</div>
+      </div>
+    </div>
+    <div class="nurses-badge">אחיות מנוסות ומקצועיות 🤍</div>
+  </div>
+
+  <!-- ── Body ──────────────────────────────────── -->
   <div class="body">
 
     <div class="sec-label">תחומי פעילות</div>
-    <div class="sec-sub">אנחנו מספקות שירותי בריאות לתינוקות ולהורים</div>
 
     <div class="services">
       <div class="svc">
@@ -357,15 +317,15 @@ body {
         <div class="svc-icon-wrap">👨‍👩‍👧</div>
         <div class="svc-text">הדרכת הורים ראשונית</div>
       </div>
-      <div class="svc">
-        <div class="svc-icon-wrap">🤲</div>
-        <div class="svc-text">הדרכת הורים לעיסוי תינוקות</div>
-      </div>
     </div>
 
-    <!-- Languages pill -->
+    <div class="svc-full">
+      <div class="svc-icon-wrap">🤲</div>
+      <div class="svc-text">הדרכת הורים לעיסוי תינוקות</div>
+    </div>
+
     <div style="display:flex;justify-content:center;margin-bottom:24px;">
-      <span class="pill" style="background:rgba(30,45,60,.06);border-color:rgba(30,45,60,.12);font-size:13.5px;">
+      <span class="pill" style="background:rgba(30,45,60,.05);border-color:rgba(30,45,60,.1);font-size:13.5px;">
         🌍 &nbsp;עברית · אנגלית · ספרדית
       </span>
     </div>
@@ -373,45 +333,60 @@ body {
     <hr class="divider">
 
     <!-- Contact -->
-    <div class="contact-card">
-      <div class="nurses-header">
-        <div class="nurses-name">שרה פוזנר ואנליה</div>
-        <div class="nurses-badge">אחיות מנוסות ומקצועיות 🤍</div>
-      </div>
+    <div class="contact-label-top">לפרטים נוספים 👇🏼</div>
 
-      <div class="contact-list">
-        <a class="contact-row wa" href="https://wa.me/9720534289393" target="_blank" rel="noopener">
-          <span class="contact-icon">💬</span>
-          <div class="contact-detail">
-            <div class="contact-label-sm">WHATSAPP</div>
-            <div class="contact-val">053-4289393</div>
-          </div>
-          <span style="color:#aaa;font-size:14px;">◀</span>
-        </a>
+    <div class="contact-list">
 
-        <a class="contact-row web" href="https://www.tipa-baderech.com/he" target="_blank" rel="noopener">
-          <span class="contact-icon">🌐</span>
-          <div class="contact-detail">
-            <div class="contact-label-sm">אתר</div>
-            <div class="contact-val ltr">tipa-baderech.com</div>
-          </div>
-          <span style="color:#aaa;font-size:14px;">◀</span>
-        </a>
+      <a class="contact-row wa" href="https://wa.me/9720534289393" target="_blank" rel="noopener">
+        <div class="brand-icon wa">
+          <!-- WhatsApp SVG -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-label-sm">WhatsApp</div>
+          <div class="contact-val">053-4289393</div>
+        </div>
+        <span class="contact-arrow">◀</span>
+      </a>
 
-        <a class="contact-row ig" href="https://www.instagram.com/tipa.baderech?igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
-          <span class="contact-icon">📸</span>
-          <div class="contact-detail">
-            <div class="contact-label-sm">INSTAGRAM</div>
-            <div class="contact-val ltr">@tipa.baderech</div>
-          </div>
-          <span style="color:#aaa;font-size:14px;">◀</span>
-        </a>
-      </div>
+      <a class="contact-row web" href="https://www.tipa-baderech.com/he" target="_blank" rel="noopener">
+        <div class="brand-icon web">
+          <!-- Globe SVG -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-label-sm">אתר</div>
+          <div class="contact-val ltr">tipa-baderech.com</div>
+        </div>
+        <span class="contact-arrow">◀</span>
+      </a>
+
+      <a class="contact-row ig" href="https://www.instagram.com/tipa.baderech?igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+        <div class="brand-icon ig">
+          <!-- Instagram SVG -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-label-sm">Instagram</div>
+          <div class="contact-val ltr">@tipa.baderech</div>
+        </div>
+        <span class="contact-arrow">◀</span>
+      </a>
+
     </div>
 
     <div class="location">📍 איזור גוש דן והשרון</div>
 
     <a class="cta" href="https://wa.me/9720534289393" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
       יצירת קשר
     </a>
 
@@ -419,10 +394,9 @@ body {
 
   <!-- ── Footer ─────────────────────────────────── -->
   <div class="footer">
-    <div class="footer-site">tipa-baderech.com</div>
+    tipa-baderech.com
   </div>
 
 </div>
-
 </body>
 </html>
