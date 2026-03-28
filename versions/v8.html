@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>טיפה בדרך — כרטיס ביקור</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { overflow-x: hidden; }
+
+:root {
+  --brown: #6b3f1a; --text: #4a3020; --text-light: #8a6848;
+  --line: #d8cfc0; --bdr: #c8b89a;
+  --blue: #d6ecf6; --blue-b: #9bc5d8;
+  --green: #d8f5e2; --green-b: #8fcca0;
+  --yellow: #fff8d6; --yellow-b: #f0d080;
+  --red: #fde8e8; --red-b: #f0a0a0;
+}
+
+@keyframes float    { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-10px) rotate(3deg)} }
+@keyframes floatAlt { 0%,100%{transform:translateY(0) rotate(4deg)}  50%{transform:translateY(-12px) rotate(-4deg)} }
+@keyframes pop      { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+
+body {
+  font-family: 'Heebo', sans-serif; color: var(--text);
+  min-height: 100vh;
+  width: 100%; max-width: 100vw;
+  background: linear-gradient(150deg, #fce8e4 0%, #e8f4fb 30%, #f0ffe8 60%, #fef5e4 100%);
+  overflow-x: hidden;
+}
+
+/* floating bg — hidden on mobile to prevent layout issues */
+.bg-deco { position:fixed; pointer-events:none; user-select:none; z-index:0; opacity:.10; }
+.bg-deco:nth-child(1)  { top:2%;   left:1%;   font-size:70px; animation:float    6s ease-in-out infinite; }
+.bg-deco:nth-child(2)  { top:14%;  right:1%;  font-size:54px; animation:floatAlt 7s ease-in-out infinite 1s; }
+.bg-deco:nth-child(3)  { top:31%;  left:0;    font-size:50px; animation:float    8s ease-in-out infinite 2s; }
+.bg-deco:nth-child(4)  { top:48%;  right:0;   font-size:62px; animation:floatAlt 6.5s ease-in-out infinite .5s; }
+.bg-deco:nth-child(5)  { top:64%;  left:2%;   font-size:52px; animation:float    7.5s ease-in-out infinite 1.5s; }
+.bg-deco:nth-child(6)  { top:80%;  right:2%;  font-size:58px; animation:floatAlt 9s ease-in-out infinite 2s; }
+.bg-deco:nth-child(7)  { bottom:3%;left:44%;  font-size:38px; animation:float    7s ease-in-out infinite 3s; }
+.bg-deco:nth-child(8)  { top:23%;  left:46%;  font-size:30px; animation:floatAlt 8s ease-in-out infinite .8s; opacity:.07; }
+.bg-deco:nth-child(9)  { top:39%;  right:3%;  font-size:42px; animation:float    9s ease-in-out infinite 1.2s; }
+.bg-deco:nth-child(10) { top:57%;  left:45%;  font-size:32px; animation:floatAlt 6s ease-in-out infinite 2.5s; opacity:.07; }
+@media (max-width:580px) { .bg-deco { display:none; } }
+
+/* tab bar */
+.tabs {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; justify-content: center; gap: 6px;
+  padding: 8px 10px;
+  background: rgba(255,253,248,.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1.5px dashed var(--bdr);
+  width: 100%;
+}
+.tab-btn {
+  font-family: 'Heebo', sans-serif; font-size: 13px; font-weight: 600;
+  border: 1.5px solid var(--bdr); border-radius: 20px;
+  padding: 7px 14px; cursor: pointer;
+  background: #fff; color: var(--text-light);
+  transition: all .2s; white-space: nowrap;
+  flex: 1; max-width: 160px; text-align: center;
+}
+.tab-btn.active { background: var(--brown); color: #fff; border-color: var(--brown); }
+.tab-btn.pdf { background: #5bbfd8; color: #fff; border-color: #5bbfd8; }
+.tab-btn.pdf:active { background: #3fa8c4; }
+
+/* page wrapper */
+.page {
+  position: relative; z-index: 1;
+  max-width: 680px; width: 100%; margin: 12px auto 16px;
+  background: rgba(255,253,248,.96);
+  border-radius: 28px;
+  box-shadow: 0 10px 52px rgba(100,60,20,.14);
+  overflow: hidden;
+}
+.page.hidden { display: none; }
+
+/* header */
+.header {
+  background: linear-gradient(135deg,#fff5ec 0%,#ffe8f6 28%,#e8f5ff 58%,#f0ffed 100%);
+  padding: 22px 28px 18px; text-align: center;
+  border-bottom: 2px dashed var(--bdr); position: relative;
+}
+.hd { position:absolute; font-size:24px; opacity:.55; }
+.hd.a { top:10px; left:16px;  animation:pop 3s ease-in-out infinite; }
+.hd.b { top:10px; right:16px; animation:pop 3s ease-in-out infinite .6s; }
+.hd.c { bottom:8px; left:52px;  animation:pop 3s ease-in-out infinite 1.2s; }
+.hd.d { bottom:8px; right:52px; animation:pop 3s ease-in-out infinite 1.8s; }
+.logo-wrap { display:flex; align-items:center; justify-content:center; gap:16px; }
+.logo-img { width:80px; height:80px; object-fit:contain; border-radius:50%; background:#fff; box-shadow:0 3px 14px rgba(100,60,20,.15); padding:4px; border:2.5px solid #f0d0b8; }
+.title-block { text-align: right; }
+.brand-name { font-size:38px; font-weight:800; color:var(--brown); line-height:1; letter-spacing:-1px; }
+.brand-drop { color:#5bbfd8; }
+.brand-sub { font-size:13px; color:var(--text-light); margin-top:4px; }
+
+/* form body */
+.form-body { padding: 20px 24px 32px; }
+
+.sec-title {
+  font-size:12px; font-weight:700; color:var(--text-light);
+  letter-spacing:.8px; margin: 18px 0 9px;
+  display:flex; align-items:center; gap:7px;
+}
+.sec-title::after { content:''; flex:1; height:1px; background:var(--line); }
+
+/* sex toggle */
+.sex-toggle { display:flex; gap:8px; margin-bottom:14px; }
+.sex-btn {
+  flex:1; font-family:'Heebo',sans-serif; font-size:14px; font-weight:600;
+  border:1.5px solid var(--bdr); border-radius:12px; padding:8px;
+  cursor:pointer; background:#fff; color:var(--text-light); transition:all .2s;
+}
+.sex-btn.active-boy  { background:#cce8ff; border-color:#7ab8e8; color:#2060a0; }
+.sex-btn.active-girl { background:#ffe0f0; border-color:#e898c0; color:#a02060; }
+
+/* info grid */
+.info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+
+/* field box */
+.field-box { background:#fff; border:1.5px solid var(--bdr); border-radius:13px; padding:9px 13px 10px; }
+.field-box.full { grid-column:1/-1; }
+.field-box.mb { margin-bottom:14px; }
+.fb-label { font-size:11.5px; font-weight:600; color:var(--text-light); margin-bottom:4px; }
+.field-box input { width:100%; border:none; border-bottom:1px dashed var(--line); background:transparent; font-family:'Heebo',sans-serif; font-size:15px; color:var(--text); padding:3px 2px; outline:none; display:block; }
+.field-box input + input { margin-top:8px; }
+.field-box input[readonly] { color:#5bbfd8; font-weight:600; }
+
+/* measurements */
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px; }
+.meas-box { background:linear-gradient(155deg,#fff8f0,#f5eeff); border:1.5px solid #dcc8f0; border-radius:15px; padding:11px 10px 12px; text-align:center; }
+.meas-icon { font-size:22px; margin-bottom:2px; }
+.meas-title { font-size:11.5px; font-weight:700; color:var(--brown); margin-bottom:8px; }
+.meas-row { display:flex; align-items:center; justify-content:space-between; gap:5px; margin-top:7px; }
+.meas-row .ml { font-size:10px; color:var(--text-light); white-space:nowrap; }
+.meas-row input { flex:1; min-width:0; border:none; border-bottom:1px dashed var(--line); background:transparent; font-family:'Heebo',sans-serif; font-size:14px; color:var(--text); padding:2px 3px; outline:none; text-align:center; }
+.meas-row input.auto { color:#5bbfd8; font-weight:600; }
+
+/* vaccines */
+.vaccine-box { border:2px solid var(--blue-b); border-radius:18px; margin-bottom:14px; overflow:hidden; }
+.vaccine-head { background:linear-gradient(130deg,var(--blue),#c4e6f5); padding:9px 15px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px dashed var(--blue-b); }
+.vaccine-head-title { font-size:14px; font-weight:700; }
+.vaccine-grid { background:#f3faff; padding:11px 15px; display:grid; grid-template-columns:1fr 1fr; gap:3px 12px; }
+.vaccine-item { display:flex; align-items:center; gap:8px; padding:6px 7px; border-radius:10px; cursor:pointer; transition:background .15s; }
+.vaccine-item:hover { background:rgba(155,197,216,.25); }
+.vaccine-item input[type="checkbox"] { width:17px; height:17px; accent-color:#5bbfd8; cursor:pointer; flex-shrink:0; }
+.vaccine-label { font-size:13px; font-weight:500; user-select:none; line-height:1.3; }
+
+/* sec boxes */
+.sec-box { border:1.5px solid var(--bdr); border-radius:16px; margin-bottom:12px; overflow:hidden; }
+.sec-box.green  { border-color:var(--green-b); }
+.sec-box.yellow { border-color:var(--yellow-b); }
+.sec-box.red    { border-color:var(--red-b); }
+.sec-head { display:flex; align-items:center; justify-content:space-between; padding:8px 14px; font-size:14px; font-weight:700; border-bottom:1px dashed var(--line); background:#fdf9f4; }
+.sec-box.green  .sec-head { background:var(--green);  border-bottom-color:var(--green-b); }
+.sec-box.yellow .sec-head { background:var(--yellow); border-bottom-color:var(--yellow-b); }
+.sec-box.red    .sec-head { background:var(--red);    border-bottom-color:var(--red-b); }
+.sec-lines { background:#fff; padding:10px 14px; }
+.sec-box.green  .sec-lines { background:#f5fff8; }
+.sec-box.yellow .sec-lines { background:#fffdf0; }
+.sec-box.red    .sec-lines { background:#fff5f5; }
+.sec-lines textarea { width:100%; border:none; background:transparent; font-family:'Heebo',sans-serif; font-size:14px; color:var(--text); resize:none; outline:none; min-height:80px; line-height:29px; background-image:repeating-linear-gradient(to bottom,transparent 0px,transparent 28px,var(--line) 28px,var(--line) 29px); background-size:100% 29px; padding-top:4px; }
+
+/* allergy toggle */
+.allergy-toggle { display:flex; gap:8px; margin-bottom:10px; }
+.allergy-btn {
+  flex:1; font-family:'Heebo',sans-serif; font-size:14px; font-weight:600;
+  border:1.5px solid var(--bdr); border-radius:10px; padding:7px;
+  cursor:pointer; background:#fff; color:var(--text-light); transition:all .2s;
+}
+.allergy-btn.active-yes { background:#fde8e8; border-color:#e88080; color:#a02020; }
+.allergy-btn.active-no  { background:#d8f5e2; border-color:#8fcca0; color:#206040; }
+.allergy-details { display:none; }
+.allergy-details.visible { display:block; }
+
+/* authored row */
+.authored-row { display:flex; align-items:center; justify-content:flex-end; gap:10px; margin-bottom:18px; }
+.authored-row label { font-size:14px; font-weight:600; color:var(--text); }
+.authored-row select { font-family:'Heebo',sans-serif; font-size:14px; color:var(--text); background:#fff; border:1.5px solid var(--bdr); border-radius:10px; padding:6px 12px; outline:none; cursor:pointer; }
+.authored-row select:focus { border-color:#5bbfd8; }
+
+/* footer */
+.form-footer { background:linear-gradient(130deg,#fff5ec,#ffe8f6,#e8f5ff,#f0ffed); border-top:1.5px dashed var(--bdr); text-align:center; padding:12px; font-size:12px; color:var(--text-light); }
+.footer-row { font-size:19px; margin-bottom:4px; }
+
+/* charts page */
+.charts-page { position:relative; z-index:1; max-width:680px; width:100%; margin:12px auto 16px; }
+.charts-page.hidden { display:none; }
+.chart-card { background:rgba(255,253,248,.96); border-radius:22px; box-shadow:0 8px 40px rgba(100,60,20,.12); overflow:hidden; margin-bottom:12px; }
+.chart-head { background:linear-gradient(130deg,#fff5ec,#e8f5ff); padding:12px 18px; border-bottom:1.5px dashed var(--bdr); font-size:14px; font-weight:700; color:var(--brown); display:flex; align-items:center; gap:8px; }
+.chart-body { padding:12px; }
+
+/* ═══════════════════════════════════════════════════════
+   PRINT / PDF  — נמנע מחיתוך בין דפים
+═══════════════════════════════════════════════════════ */
+@media print {
+  @page { size: A4; margin: 14mm 12mm; }
+
+  /* הסתרת אלמנטי ממשק */
+  .tabs, .bg-deco, .hd { display:none !important; }
+
+  body { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* עמוד הטופס */
+  .page {
+    box-shadow: none !important; border-radius: 0 !important;
+    margin: 0 !important; background: white !important;
+    max-width: 100% !important; width: 100% !important;
+    overflow: visible !important;
+  }
+  .page.hidden { display: block !important; }
+
+  /* מניעת חיתוך בתוך סקשנים */
+  .info-grid       { break-inside: avoid; }
+  .grid-3          { break-inside: avoid; }
+  .meas-box        { break-inside: avoid; }
+  .vaccine-box     { break-inside: avoid; page-break-inside: avoid; }
+  .vaccine-grid    { break-inside: avoid; }
+  .sec-box         { break-inside: avoid; page-break-inside: avoid; }
+  .field-box.mb    { break-inside: avoid; }
+  .authored-row    { break-inside: avoid; }
+  .form-footer     { break-inside: avoid; }
+
+  /* כותרות סקשן — לא לשבור אחריהן */
+  .sec-title { break-after: avoid; page-break-after: avoid; }
+
+  /* גרפים — עמוד חדש */
+  .charts-page {
+    page-break-before: always;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .charts-page.hidden { display: block !important; }
+  .chart-card {
+    break-inside: avoid; page-break-inside: avoid;
+    box-shadow: none !important; border-radius: 8px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* Canvas — גדלים מותאמים להדפסה */
+  canvas { max-width: 100% !important; height: auto !important; }
+}
+
+/* mobile */
+@media (max-width:580px) {
+  .page, .charts-page { margin:0; border-radius:0; width:100%; }
+  .form-body { padding:14px 12px 20px; }
+  .grid-3 { grid-template-columns:1fr; }
+  .info-grid { grid-template-columns:1fr; }
+  .vaccine-grid { grid-template-columns:1fr; }
+  .logo-wrap { flex-direction:column; gap:8px; }
+  .title-block { text-align:center; }
+  .brand-name { font-size:32px; }
+  .header { padding:16px 16px 14px; }
+  .chart-body { padding:8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-deco">🐻</div><div class="bg-deco">🧸</div><div class="bg-deco">🐨</div>
+<div class="bg-deco">👶</div><div class="bg-deco">🍼</div><div class="bg-deco">🌸</div>
+<div class="bg-deco">⭐</div><div class="bg-deco">🦋</div><div class="bg-deco">🌟</div><div class="bg-deco">🐣</div>
+
+<!-- Tab bar -->
+<div class="tabs">
+  <button class="tab-btn active" id="tab-form"   onclick="showTab('form')">📋 טופס</button>
+  <button class="tab-btn"        id="tab-charts" onclick="showTab('charts')">📈 גרפים</button>
+  <button class="tab-btn pdf"                    onclick="exportPDF()">📄 ייצוא PDF</button>
+</div>
+
+<!-- ══════════════ PAGE 1: FORM ══════════════ -->
+<div id="section-form" class="page">
+
+  <div class="header">
+    <div class="hd a">🐻</div><div class="hd b">🌸</div><div class="hd c">⭐</div><div class="hd d">🧸</div>
+    <div class="logo-wrap">
+      <img src="https://www.dropbox.com/scl/fi/ccv9cavnbz043m5ar25lm/WhatsApp-Image-2026-03-11-at-21.30.55.jpeg?rlkey=5lp2l4fik3j2qysrla2k8s969&raw=1"
+        alt="לוגו" class="logo-img" onerror="this.style.display='none'">
+      <div class="title-block">
+        <div class="brand-name">טיפה <span class="brand-drop">💧</span> בדרך</div>
+        <div class="brand-sub">טיפת חלב פרטית · tipa-baderech.com</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-body">
+
+    <!-- Patient info -->
+    <div class="sec-title">👶 פרטי התינוק/ת</div>
+
+    <div class="field-box full mb">
+      <div class="fb-label">שם מלא</div>
+      <input type="text" id="f-name">
+    </div>
+
+    <!-- Sex toggle -->
+    <div class="sex-toggle">
+      <button class="sex-btn active-boy" id="btn-boy"  onclick="setSex('boy')">👦 זכר</button>
+      <button class="sex-btn" id="btn-girl" onclick="setSex('girl')">👧 נקבה</button>
+    </div>
+
+    <div class="info-grid">
+      <div class="field-box">
+        <div class="fb-label">תאריך ביקור</div>
+        <input type="text" id="f-visit" placeholder="dd/mm/yyyy">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">תאריך לידה</div>
+        <input type="text" id="f-dob" placeholder="dd/mm/yyyy">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">גיל כרונולוגי</div>
+        <input type="text" id="f-age-chron" readonly placeholder="מחושב אוטומטית">
+      </div>
+      <div class="field-box">
+        <div class="fb-label">גיל מתוקן</div>
+        <input type="text" id="f-age-corrected" placeholder="לדוגמה: 2 חודשים" oninput="updatePercentiles()">
+      </div>
+    </div>
+
+    <!-- Measurements -->
+    <div class="sec-title">📏 מדידות</div>
+    <div class="grid-3">
+      <div class="meas-box">
+        <div class="meas-icon">⚖️</div>
+        <div class="meas-title">משקל</div>
+        <div class="meas-row"><span class="ml">ק"ג</span><input type="number" step="0.01" id="m-weight" oninput="updatePercentiles()"></div>
+        <div class="meas-row"><span class="ml">אחוזון</span><input type="text" id="p-weight" class="auto" readonly placeholder="—"></div>
+      </div>
+      <div class="meas-box">
+        <div class="meas-icon">📐</div>
+        <div class="meas-title">גובה</div>
+        <div class="meas-row"><span class="ml">ס"מ</span><input type="number" step="0.1" id="m-height" oninput="updatePercentiles()"></div>
+        <div class="meas-row"><span class="ml">אחוזון</span><input type="text" id="p-height" class="auto" readonly placeholder="—"></div>
+      </div>
+      <div class="meas-box">
+        <div class="meas-icon">🔵</div>
+        <div class="meas-title">היקף ראש</div>
+        <div class="meas-row"><span class="ml">ס"מ</span><input type="number" step="0.1" id="m-hc" oninput="updatePercentiles()"></div>
+        <div class="meas-row"><span class="ml">אחוזון</span><input type="text" id="p-hc" class="auto" readonly placeholder="—"></div>
+      </div>
+    </div>
+
+    <!-- Vaccines -->
+    <div class="sec-title">💉 חיסונים</div>
+    <div class="vaccine-box">
+      <div class="vaccine-head">
+        <div class="vaccine-head-title">חיסונים שניתנו בביקור זה</div>
+        <span>💉 🌟</span>
+      </div>
+      <div class="vaccine-grid">
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">RSV</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">פנאומוקוק (PCV)</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">רוטה-וירוס</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">MMR (אדמת, חצבת, חזרת)</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">MMRV (חצבת, חזרת, אדמת, VZV)</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">B-Hep (הפטיטיס B)</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">DTP-IPV-HIB</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">Hib</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">שפעת</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">אבעבועות רוח (VZV)</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">בקסרו</span></label>
+        <label class="vaccine-item"><input type="checkbox"><span class="vaccine-label">A-Hep (הפטיטיס A)</span></label>
+      </div>
+    </div>
+
+    <!-- Allergies / Sensitivities -->
+    <div class="sec-title">🚨 רגישויות / אלרגיות</div>
+    <div class="sec-box red">
+      <div class="sec-head">רגישויות / אלרגיות <span>🚨</span></div>
+      <div class="sec-lines">
+        <div class="allergy-toggle">
+          <button class="allergy-btn" id="btn-allergy-no"  onclick="setAllergy('no')">✅ לא ידועות</button>
+          <button class="allergy-btn" id="btn-allergy-yes" onclick="setAllergy('yes')">⚠️ כן, יש רגישויות</button>
+        </div>
+        <div class="allergy-details" id="allergy-details">
+          <textarea rows="3" placeholder="פרט/י את הרגישויות והאלרגיות..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="sec-title">🌿 המלצות והנחיות</div>
+    <div class="sec-box green">
+      <div class="sec-head">המלצות <span>🐻</span></div>
+      <div class="sec-lines"><textarea rows="4"></textarea></div>
+    </div>
+
+    <!-- Notes -->
+    <div class="sec-box yellow">
+      <div class="sec-head">הערות <span>📝</span></div>
+      <div class="sec-lines"><textarea rows="3"></textarea></div>
+    </div>
+
+    <!-- Authored by -->
+    <div class="authored-row">
+      <label for="f-author">:נערך ע"י</label>
+      <select id="f-author">
+        <option value="">— בחר —</option>
+        <option value="שרה פוזנר">שרה פוזנר</option>
+        <option value="אנליה אליס">אנליה אליס</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="form-footer">
+    <div class="footer-row">🐻 🌸 👶 🍼 🌸 🐨</div>
+    tipa-baderech.com
+  </div>
+</div><!-- /page -->
+
+
+<!-- ══════════════ PAGE 2: CHARTS ══════════════ -->
+<div id="section-charts" class="charts-page hidden">
+
+  <div class="chart-card">
+    <div class="chart-head">⚖️ עקומת משקל (Weight-for-age)</div>
+    <div class="chart-body"><canvas id="chart-weight" height="220"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-head">📐 עקומת גובה (Length-for-age)</div>
+    <div class="chart-body"><canvas id="chart-height" height="220"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-head">🔵 עקומת היקף ראש (HC-for-age)</div>
+    <div class="chart-body"><canvas id="chart-hc" height="220"></canvas></div>
+  </div>
+
+</div><!-- /charts -->
+
+
+<script>
+/* ── WHO LMS data (0–24 months) ─────────────────────────────────────────────
+   Each entry: [L, M, S] for the given month.
+   Source: WHO Child Growth Standards, 2006.
+────────────────────────────────────────────────────────────────────────────── */
+const WHO = {
+  boys: {
+    weight: [
+      [0.3487,3.3464,.14602],[0.2297,4.4709,.13395],[0.1970,5.5675,.12385],[0.1738,6.3762,.11727],
+      [0.1553,7.0023,.11316],[0.1395,7.5105,.10963],[0.1257,7.9340,.10680],[0.1134,8.2970,.10454],
+      [0.1021,8.6151,.10280],[0.0917,8.9014,.10152],[0.0822,9.1649,.10063],[0.0730,9.4122,.10008],
+      [0.0640,9.6479,.09987],[0.0552,9.8749,.09999],[0.0465,10.0953,.10041],[0.0380,10.3108,.10108],
+      [0.0296,10.5228,.10196],[0.0213,10.7319,.10302],[0.0133,10.9385,.10420],[0.0054,11.1430,.10547],
+      [-0.0022,11.3462,.10681],[-0.0094,11.5486,.10817],[-0.0162,11.7504,.10953],
+      [-0.0229,11.9514,.11088],[-0.0294,12.1515,.11223]
+    ],
+    length: [
+      [1,49.8842,.03795],[1,54.7244,.03557],[1,58.4249,.03424],[1,61.4292,.03328],
+      [1,63.8860,.03257],[1,65.9026,.03204],[1,67.6236,.03168],[1,69.1645,.03140],
+      [1,70.5994,.03122],[1,71.9687,.03112],[1,73.2812,.03111],[1,74.5388,.03118],
+      [1,75.7488,.03131],[1,76.9186,.03150],[1,78.0497,.03174],[1,79.1458,.03201],
+      [1,80.2113,.03229],[1,81.2487,.03256],[1,82.2587,.03283],[1,83.2418,.03309],
+      [1,84.1996,.03334],[1,85.1348,.03357],[1,86.0477,.03378],[1,86.9410,.03397],[1,87.8161,.03414]
+    ],
+    hc: [
+      [1,34.4618,.03686],[1,37.2759,.03133],[1,39.1285,.02997],[1,40.5135,.02918],
+      [1,41.6317,.02855],[1,42.5621,.02808],[1,43.3287,.02768],[1,43.9683,.02737],
+      [1,44.4997,.02712],[1,44.9482,.02692],[1,45.3272,.02677],[1,45.6510,.02666],
+      [1,45.9310,.02659],[1,46.1767,.02654],[1,46.3960,.02651],[1,46.5940,.02650],
+      [1,46.7749,.02651],[1,46.9420,.02652],[1,47.0978,.02654],[1,47.2441,.02657],
+      [1,47.3820,.02661],[1,47.5128,.02665],[1,47.6371,.02669],[1,47.7554,.02673],[1,47.8681,.02677]
+    ]
+  },
+  girls: {
+    weight: [
+      [0.3809,3.2322,.14171],[0.1714,4.1873,.13724],[0.0962,5.1282,.13000],[0.0402,5.8458,.12619],
+      [-0.0050,6.4237,.12268],[-0.0453,6.8985,.11973],[-0.0817,7.2970,.11714],[-0.1153,7.6422,.11489],
+      [-0.1463,7.9487,.11302],[-0.1749,8.2254,.11153],[-0.2017,8.4800,.11040],[-0.2268,8.7192,.10966],
+      [-0.2504,8.9481,.10932],[-0.2726,9.1699,.10938],[-0.2936,9.3870,.10979],[-0.3134,9.6008,.11051],
+      [-0.3322,9.8124,.11148],[-0.3500,10.0226,.11268],[-0.3668,10.2313,.11408],[-0.3828,10.4388,.11565],
+      [-0.3981,10.6451,.11737],[-0.4126,10.8502,.11921],[-0.4264,11.0537,.12117],
+      [-0.4397,11.2555,.12324],[-0.4525,11.5950,.12530]
+    ],
+    length: [
+      [1,49.1477,.03790],[1,53.6872,.03640],[1,57.0673,.03568],[1,59.8029,.03497],
+      [1,62.0900,.03444],[1,64.0301,.03401],[1,65.7311,.03368],[1,67.2873,.03340],
+      [1,68.7498,.03323],[1,70.1435,.03313],[1,71.4818,.03311],[1,72.7710,.03315],
+      [1,74.0150,.03325],[1,75.2176,.03339],[1,76.3817,.03356],[1,77.5099,.03375],
+      [1,78.6055,.03396],[1,79.6705,.03418],[1,80.7079,.03441],[1,81.7182,.03464],
+      [1,82.7037,.03487],[1,83.6654,.03510],[1,84.6049,.03532],[1,85.5240,.03553],[1,86.4153,.03574]
+    ],
+    hc: [
+      [1,33.8787,.03496],[1,36.5414,.03022],[1,38.2521,.02904],[1,39.5328,.02831],
+      [1,40.5817,.02778],[1,41.4665,.02737],[1,42.2018,.02703],[1,42.8159,.02677],
+      [1,43.3236,.02657],[1,43.7436,.02641],[1,44.0934,.02630],[1,44.3873,.02622],
+      [1,44.6395,.02616],[1,44.8568,.02613],[1,45.0459,.02612],[1,45.2116,.02611],
+      [1,45.3583,.02612],[1,45.4887,.02613],[1,45.6062,.02616],[1,45.7123,.02619],
+      [1,45.8092,.02622],[1,45.8979,.02626],[1,45.9793,.02630],[1,46.0541,.02634],[1,46.1231,.02638]
+    ]
+  }
+};
+
+/* ── Maths ─────────────────────────────────────────────────────────────────── */
+function normCDF(z) {
+  const t = 1 / (1 + 0.2316419 * Math.abs(z));
+  const p = 1 - 0.3989423 * Math.exp(-z*z/2) * t *
+    (0.3193815 + t*(-0.3565638 + t*(1.7814779 + t*(-1.8212560 + t*1.3302744))));
+  return z >= 0 ? p : 1 - p;
+}
+
+function lmsZ(x, L, M, S) {
+  return Math.abs(L) < 0.001 ? Math.log(x/M)/S : (Math.pow(x/M, L) - 1) / (L*S);
+}
+
+function calcPerc(x, ageMonths, sex, type) {
+  const tbl = WHO[sex][type];
+  if (ageMonths === null || x <= 0) return null;
+  const idx0 = Math.min(Math.floor(ageMonths), tbl.length - 1);
+  const idx1 = Math.min(idx0 + 1, tbl.length - 1);
+  const frac = ageMonths - idx0;
+  if (!tbl[idx0]) return null;
+  const L = tbl[idx0][0] + frac * (tbl[idx1][0] - tbl[idx0][0]);
+  const M = tbl[idx0][1] + frac * (tbl[idx1][1] - tbl[idx0][1]);
+  const S = tbl[idx0][2] + frac * (tbl[idx1][2] - tbl[idx0][2]);
+  const z = lmsZ(x, L, M, S);
+  if (!isFinite(z)) return null;
+  return Math.round(normCDF(z) * 1000) / 10;
+}
+
+function lmsToVal(L, M, S, z) {
+  if (Math.abs(L) < 0.001) return M * Math.exp(S * z);
+  const base = 1 + L * S * z;
+  return base > 0 ? M * Math.pow(base, 1/L) : null;
+}
+
+/* ── State ─────────────────────────────────────────────────────────────────── */
+let sex = 'boys';
+let ageMonths = null;
+
+function setSex(s) {
+  sex = s === 'boy' ? 'boys' : 'girls';
+  document.getElementById('btn-boy').className  = 'sex-btn' + (s==='boy'  ? ' active-boy'  : '');
+  document.getElementById('btn-girl').className = 'sex-btn' + (s==='girl' ? ' active-girl' : '');
+  updatePercentiles();
+}
+
+function setAllergy(val) {
+  const btnNo  = document.getElementById('btn-allergy-no');
+  const btnYes = document.getElementById('btn-allergy-yes');
+  const details = document.getElementById('allergy-details');
+  if (val === 'yes') {
+    btnYes.className = 'allergy-btn active-yes';
+    btnNo.className  = 'allergy-btn';
+    details.classList.add('visible');
+  } else {
+    btnNo.className  = 'allergy-btn active-no';
+    btnYes.className = 'allergy-btn';
+    details.classList.remove('visible');
+  }
+}
+
+function parseDate(s) {
+  const p = s.trim().split('/');
+  if (p.length !== 3) return null;
+  const d = +p[0], m = +p[1], y = +p[2];
+  if (!d || !m || !y || y < 1900) return null;
+  return new Date(y, m - 1, d);
+}
+
+function calcAge() {
+  const visit = document.getElementById('f-visit').value;
+  const dob   = document.getElementById('f-dob').value;
+  if (!visit || !dob) { ageMonths = null; document.getElementById('f-age-chron').value = ''; return; }
+  const d1 = parseDate(dob), d2 = parseDate(visit);
+  if (!d1 || !d2) { ageMonths = null; document.getElementById('f-age-chron').value = ''; return; }
+  const diffDays = (d2 - d1) / 86400000;
+  if (diffDays < 0) { ageMonths = 0; document.getElementById('f-age-chron').value = '0 חודשים'; return; }
+  ageMonths = diffDays / 30.4375;
+  const totalInt = Math.floor(ageMonths);
+  const y = Math.floor(totalInt / 12), m = totalInt % 12;
+  let label = '';
+  if (y > 0) label += y + ' שנ׳ ';
+  label += m + ' חודשים';
+  document.getElementById('f-age-chron').value = label;
+}
+
+function getEffectiveAge() {
+  const corrText = document.getElementById('f-age-corrected').value.trim();
+  if (corrText) {
+    const m = corrText.match(/(\d+)/);
+    if (m) return parseInt(m[1]);
+  }
+  return ageMonths;
+}
+
+function updatePercentiles() {
+  calcAge();
+  const age = getEffectiveAge();
+  if (age === null || !sex) {
+    ['weight','height','hc'].forEach(t => { document.getElementById('p-'+t).value = ''; });
+    return;
+  }
+  const type = { weight:'weight', height:'length', hc:'hc' };
+  const id   = { weight:'m-weight', height:'m-height', hc:'m-hc' };
+  ['weight','height','hc'].forEach(t => {
+    const v = parseFloat(document.getElementById(id[t]).value);
+    const p = isNaN(v) ? null : calcPerc(v, age, sex, type[t]);
+    document.getElementById('p-'+t).value = p !== null ? p : '';
+    document.getElementById('p-'+t).placeholder = p !== null ? '' : '—';
+  });
+  if (!document.getElementById('section-charts').classList.contains('hidden')) {
+    drawCharts();
+  }
+}
+
+/* ── Charts ────────────────────────────────────────────────────────────────── */
+const PERCS = [3, 10, 25, 50, 75, 90, 97];
+const ZMAP  = {3:-1.881, 10:-1.282, 25:-0.674, 50:0, 75:0.674, 90:1.282, 97:1.881};
+const AGES  = Array.from({length:25}, (_,i) => i);
+
+const CURVE_STYLES = {
+  3:  { color:'rgba(220,100,100,.55)', dash:[4,3], width:1.2 },
+  10: { color:'rgba(220,150, 80,.65)', dash:[3,2], width:1.2 },
+  25: { color:'rgba(100,180,100,.70)', dash:[3,2], width:1.3 },
+  50: { color:'rgba( 70,130,210,.85)', dash:[],    width:2.2 },
+  75: { color:'rgba(100,180,100,.70)', dash:[3,2], width:1.3 },
+  90: { color:'rgba(220,150, 80,.65)', dash:[3,2], width:1.2 },
+  97: { color:'rgba(220,100,100,.55)', dash:[4,3], width:1.2 }
+};
+
+const chartInstances = {};
+
+function buildCurveDatasets(tblKey) {
+  const s = sex || 'boys';
+  const tbl = WHO[s][tblKey];
+  return PERCS.map(p => {
+    const st = CURVE_STYLES[p];
+    return {
+      label: 'P' + p,
+      data: AGES.map(a => {
+        const [L, M, S] = tbl[a];
+        const v = lmsToVal(L, M, S, ZMAP[p]);
+        return v !== null ? +v.toFixed(2) : null;
+      }),
+      borderColor: st.color,
+      borderWidth: st.width,
+      borderDash: st.dash,
+      pointRadius: 0,
+      fill: false,
+      tension: 0.3
+    };
+  });
+}
+
+function getPatientDataset(measId, tblKey) {
+  const age = getEffectiveAge();
+  const val = parseFloat(document.getElementById(measId).value);
+  if (age === null || isNaN(val)) return null;
+  return {
+    label: 'תינוק/ת',
+    data: AGES.map(a => a === Math.min(Math.round(age), 24) ? val : null),
+    borderColor: 'rgba(250,80,80,1)',
+    backgroundColor: 'rgba(250,80,80,1)',
+    pointRadius: AGES.map(a => a === Math.min(Math.round(age), 24) ? 7 : 0),
+    pointHoverRadius: 9,
+    showLine: false,
+    fill: false
+  };
+}
+
+function drawChart(id, measId, tblKey, yLabel) {
+  const ctx = document.getElementById(id).getContext('2d');
+  if (chartInstances[id]) chartInstances[id].destroy();
+
+  const datasets = buildCurveDatasets(tblKey);
+  const pt = getPatientDataset(measId, tblKey);
+  if (pt) datasets.push(pt);
+
+  chartInstances[id] = new Chart(ctx, {
+    type: 'line',
+    data: { labels: AGES, datasets },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: { font:{size:11}, boxWidth:24, padding:8,
+            filter: i => i.text === 'תינוק/ת' || ['P3','P10','P50','P90','P97'].includes(i.text)
+          }
+        },
+        tooltip: { mode:'index', intersect:false }
+      },
+      scales: {
+        x: { title:{ display:true, text:'גיל (חודשים)', font:{size:11} }, grid:{ color:'rgba(0,0,0,.06)' } },
+        y: { title:{ display:true, text:yLabel, font:{size:11} }, grid:{ color:'rgba(0,0,0,.06)' } }
+      }
+    }
+  });
+}
+
+function drawCharts() {
+  drawChart('chart-weight', 'm-weight', 'weight', 'משקל (ק"ג)');
+  drawChart('chart-height', 'm-height', 'length', 'גובה (ס"מ)');
+  drawChart('chart-hc',     'm-hc',     'hc',     'היקף ראש (ס"מ)');
+}
+
+/* ── Tab navigation ─────────────────────────────────────────────────────────── */
+function showTab(tab) {
+  const isForm = tab === 'form';
+  document.getElementById('section-form').classList.toggle('hidden', !isForm);
+  document.getElementById('section-charts').classList.toggle('hidden', isForm);
+  document.getElementById('tab-form').classList.toggle('active', isForm);
+  document.getElementById('tab-charts').classList.toggle('active', !isForm);
+  if (!isForm) requestAnimationFrame(() => drawCharts());
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── PDF export ─────────────────────────────────────────────────────────────── */
+function exportPDF() {
+  const chartsEl = document.getElementById('section-charts');
+  const wasHidden = chartsEl.classList.contains('hidden');
+  if (wasHidden) {
+    chartsEl.classList.remove('hidden');
+    drawCharts();
+  }
+  setTimeout(() => {
+    window.print();
+    if (wasHidden) chartsEl.classList.add('hidden');
+  }, 500);
+}
+
+/* ── Date pickers ───────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() {
+  function onDateChange() { calcAge(); updatePercentiles(); }
+
+  const fpOpts = {
+    dateFormat: 'd/m/Y',
+    allowInput: true,
+    onChange:      onDateChange,
+    onValueUpdate: onDateChange   /* גיבוי — מופעל גם בהקלדה ידנית */
+  };
+  flatpickr('#f-visit', fpOpts);
+  flatpickr('#f-dob',   fpOpts);
+});
+</script>
+</body>
+</html>
