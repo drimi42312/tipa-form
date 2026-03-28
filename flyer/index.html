@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>טיפה בדרך — טיפת חלב פרטית</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brown:  #6b3f1a;
+  --brown2: #8b5430;
+  --blue:   #5bbfd8;
+  --blue2:  #3aa0c0;
+  --pink:   #f0a0c8;
+  --text:   #3a2010;
+  --soft:   #7a5838;
+}
+
+body {
+  font-family: 'Heebo', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(145deg, #fce8e4 0%, #fde8f4 25%, #e8f4fb 55%, #f0ffe8 80%, #fef5e4 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 16px 40px;
+}
+
+/* ── Card ─────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(255,253,250,.97);
+  border-radius: 36px;
+  box-shadow: 0 20px 80px rgba(100,60,20,.18), 0 2px 8px rgba(100,60,20,.08);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Hero ─────────────────────────────────── */
+.hero {
+  background: linear-gradient(140deg, #fff5ec 0%, #ffe8f5 35%, #e8f5ff 65%, #f0ffed 100%);
+  padding: 36px 28px 28px;
+  text-align: center;
+  position: relative;
+  border-bottom: 2.5px dashed #d8c8b0;
+}
+
+/* floating deco */
+.deco { position: absolute; font-size: 28px; opacity: .45; pointer-events: none; }
+.deco.d1 { top: 12px;  left: 18px; }
+.deco.d2 { top: 12px;  right: 18px; }
+.deco.d3 { bottom: 10px; left: 46px; }
+.deco.d4 { bottom: 10px; right: 46px; }
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.logo-img {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(100,60,20,.18);
+  padding: 5px;
+  border: 3px solid #f0d0b8;
+}
+
+.brand {
+  text-align: right;
+}
+.brand-name {
+  font-size: 46px; font-weight: 900;
+  color: var(--brown);
+  line-height: 1;
+  letter-spacing: -1.5px;
+}
+.brand-drop { color: var(--blue); }
+.brand-sub {
+  font-size: 13px; color: var(--soft);
+  margin-top: 5px; font-weight: 500;
+}
+
+.tagline {
+  font-size: 15px; font-weight: 600;
+  color: var(--soft);
+  background: rgba(255,255,255,.7);
+  border: 1.5px dashed #d8c8b0;
+  border-radius: 20px;
+  padding: 7px 20px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* ── Body ─────────────────────────────────── */
+.body { padding: 24px 24px 20px; }
+
+/* ── Services ─────────────────────────────── */
+.sec-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  color: var(--soft); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-label::after { content:''; flex:1; height:1px; background:#e0d4c4; }
+
+.services {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.svc {
+  background: linear-gradient(145deg, #fff8f2, #f5eeff);
+  border: 1.5px solid #e8d8f0;
+  border-radius: 16px;
+  padding: 13px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  transition: transform .15s, box-shadow .15s;
+}
+.svc:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(100,60,20,.1); }
+.svc-icon { font-size: 22px; flex-shrink: 0; line-height: 1; margin-top: 1px; }
+.svc-text { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; }
+
+/* full-width service */
+.svc.full { grid-column: 1 / -1; }
+
+/* ── Divider ──────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 2px dashed #e0d4c4;
+  margin: 4px 0 20px;
+}
+
+/* ── Contact ──────────────────────────────── */
+.contact-section {
+  background: linear-gradient(135deg, #fff5ec, #fde8f4, #e8f5ff);
+  border-radius: 22px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  border: 1.5px solid #f0d8e8;
+}
+
+.nurses {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.nurses-name {
+  font-size: 20px; font-weight: 800; color: var(--brown);
+  margin-bottom: 3px;
+}
+.nurses-badge {
+  font-size: 13.5px; color: var(--soft); font-weight: 500;
+}
+
+.contact-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,.75);
+  border-radius: 14px;
+  border: 1.5px solid rgba(200,180,160,.3);
+  text-decoration: none;
+  color: var(--text);
+  transition: background .15s, transform .15s;
+}
+.contact-item:hover { background: rgba(255,255,255,.95); transform: translateX(-2px); }
+
+.contact-icon { font-size: 22px; flex-shrink: 0; }
+.contact-info { flex: 1; }
+.contact-label { font-size: 10.5px; color: var(--soft); font-weight: 600; letter-spacing: .5px; margin-bottom: 2px; }
+.contact-val   { font-size: 14.5px; font-weight: 700; color: var(--text); direction: ltr; text-align: right; }
+.contact-val.ltr { direction: ltr; text-align: left; }
+.contact-arrow { font-size: 16px; color: #bba898; }
+
+/* WhatsApp */
+.contact-item.wa { border-color: #c3e6c3; background: #f0fdf0; }
+.contact-item.wa:hover { background: #e0fae0; }
+.contact-item.wa .contact-val { color: #1a7a1a; }
+
+/* Instagram */
+.contact-item.ig { border-color: #f0c8e0; background: #fff0f8; }
+.contact-item.ig:hover { background: #ffe4f4; }
+.contact-item.ig .contact-val { color: #9a1a6a; }
+
+/* Website */
+.contact-item.web { border-color: #c8dff0; background: #f0f8ff; }
+.contact-item.web:hover { background: #e0f0ff; }
+.contact-item.web .contact-val { color: #1a50a0; }
+
+/* ── Location badge ───────────────────────── */
+.location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px; font-weight: 600;
+  color: var(--soft);
+  background: #fef5e4;
+  border: 1.5px dashed #e8c878;
+  border-radius: 20px;
+  padding: 7px 18px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* ── Footer ───────────────────────────────── */
+.footer {
+  background: linear-gradient(130deg,#fff5ec,#ffe8f6,#e8f5ff,#f0ffed);
+  border-top: 2px dashed #d8c8b0;
+  text-align: center;
+  padding: 14px 16px;
+}
+.footer-emojis { font-size: 20px; letter-spacing: 4px; margin-bottom: 4px; }
+.footer-site { font-size: 12px; color: var(--soft); font-weight: 500; }
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 420px) {
+  .card { border-radius: 24px; }
+  .brand-name { font-size: 38px; }
+  .logo-img { width: 74px; height: 74px; }
+  .hero { padding: 26px 18px 22px; }
+  .body { padding: 18px 16px 16px; }
+  .services { grid-template-columns: 1fr; }
+  .svc.full { grid-column: 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- ── Hero ────────────────────────────── -->
+  <div class="hero">
+    <div class="deco d1">🐻</div>
+    <div class="deco d2">🌸</div>
+    <div class="deco d3">⭐</div>
+    <div class="deco d4">🧸</div>
+
+    <div class="logo-wrap">
+      <img class="logo-img"
+        src="https://www.dropbox.com/scl/fi/ccv9cavnbz043m5ar25lm/WhatsApp-Image-2026-03-11-at-21.30.55.jpeg?rlkey=5lp2l4fik3j2qysrla2k8s969&raw=1"
+        alt="לוגו טיפה בדרך"
+        onerror="this.style.display='none'">
+      <div class="brand">
+        <div class="brand-name">טיפה <span class="brand-drop">💧</span> בדרך</div>
+        <div class="brand-sub">טיפת חלב פרטית</div>
+      </div>
+    </div>
+
+    <div class="tagline">🏠 שירות עד הבית — בסביבה הנוחה שלך</div>
+  </div>
+
+  <!-- ── Body ─────────────────────────────── -->
+  <div class="body">
+
+    <!-- Services -->
+    <div class="sec-label">השירותים שלנו</div>
+    <div class="services">
+      <div class="svc">
+        <span class="svc-icon">📈</span>
+        <span class="svc-text">מעקב התפתחותי</span>
+      </div>
+      <div class="svc">
+        <span class="svc-icon">💉</span>
+        <span class="svc-text">חיסונים</span>
+      </div>
+      <div class="svc">
+        <span class="svc-icon">👨‍👩‍👧</span>
+        <span class="svc-text">הדרכת הורים ראשונית</span>
+      </div>
+      <div class="svc">
+        <span class="svc-icon">🤲</span>
+        <span class="svc-text">הדרכת עיסוי תינוקות</span>
+      </div>
+      <div class="svc full">
+        <span class="svc-icon">🌍</span>
+        <span class="svc-text">דוברי עברית · אנגלית · ספרדית</span>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Contact -->
+    <div class="sec-label">יצירת קשר</div>
+
+    <div class="contact-section">
+      <div class="nurses">
+        <div class="nurses-name">שרה פוזנר ואנליה</div>
+        <div class="nurses-badge">אחיות מנוסות ומקצועיות 🤍</div>
+      </div>
+
+      <div class="contact-grid">
+
+        <a class="contact-item wa" href="https://wa.me/9720534289393" target="_blank" rel="noopener">
+          <span class="contact-icon">💬</span>
+          <div class="contact-info">
+            <div class="contact-label">WHATSAPP</div>
+            <div class="contact-val">053-4289393</div>
+          </div>
+          <span class="contact-arrow">◀</span>
+        </a>
+
+        <a class="contact-item web" href="https://www.tipa-baderech.com/he" target="_blank" rel="noopener">
+          <span class="contact-icon">🌐</span>
+          <div class="contact-info">
+            <div class="contact-label">אתר</div>
+            <div class="contact-val ltr">tipa-baderech.com</div>
+          </div>
+          <span class="contact-arrow">◀</span>
+        </a>
+
+        <a class="contact-item ig" href="https://www.instagram.com/tipa.baderech?igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+          <span class="contact-icon">📸</span>
+          <div class="contact-info">
+            <div class="contact-label">INSTAGRAM</div>
+            <div class="contact-val ltr">@tipa.baderech</div>
+          </div>
+          <span class="contact-arrow">◀</span>
+        </a>
+
+      </div>
+    </div>
+
+    <div class="location">📍 איזור גוש דן</div>
+
+  </div>
+
+  <!-- ── Footer ───────────────────────────── -->
+  <div class="footer">
+    <div class="footer-emojis">🐻 🌸 👶 🍼 🌸 🐨</div>
+    <div class="footer-site">tipa-baderech.com</div>
+  </div>
+
+</div>
+
+</body>
+</html>
